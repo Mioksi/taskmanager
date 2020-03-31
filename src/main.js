@@ -2,6 +2,11 @@
 
 const TASK_COUNT = 3;
 
+const Place = {
+  BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`
+};
+
 const siteMain = document.querySelector(`.main`);
 const siteHeader = siteMain.querySelector(`.main__control`);
 
@@ -349,25 +354,27 @@ const createLoadMoreButton = () => (
   `<button class="load-more" type="button">load more</button>`
 );
 
-const render = (container, template, place = `beforeend`) => {
+const render = (container, template, place = Place.BEFOREEND) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const renderTaskList = () => {
+const renderTaskList = (container) => {
   for (let i = 0; i < TASK_COUNT; i++) {
-    render(taskList, createTask());
+    render(container, createTask());
   }
 };
 
-render(siteHeader, createMenu());
-render(siteMain, createFilter());
-render(siteMain, createBoard());
+const init = () => {
+  render(siteHeader, createMenu());
+  render(siteMain, createFilter());
+  render(siteMain, createBoard());
 
-const board = siteMain.querySelector(`.board`);
-const taskList = board.querySelector(`.board__tasks`);
+  const board = siteMain.querySelector(`.board`);
+  const taskList = board.querySelector(`.board__tasks`);
 
-render(taskList, createTaskEdit());
+  render(taskList, createTaskEdit());
+  renderTaskList(taskList);
+  render(board, createLoadMoreButton());
+};
 
-renderTaskList();
-
-render(board, createLoadMoreButton());
+init();
