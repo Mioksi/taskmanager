@@ -110,7 +110,8 @@ const createBoard = () => (
       <a href="#" class="board__filter">SORT BY DATE up</a>
       <a href="#" class="board__filter">SORT BY DATE down</a>
     </div>
-    <div class="board__tasks"></div>
+    <div class="board__tasks">${createTaskEdit()} ${renderTaskList()}</div>
+    ${createLoadMoreButton()}
   </section>`
 );
 
@@ -358,23 +359,22 @@ const render = (container, template, place = Place.BEFOREEND) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const renderTaskList = (container) => {
+const renderTaskList = () => {
+  let tasks = ``;
+
   for (let i = 0; i < TASK_COUNT; i++) {
-    render(container, createTask());
+    const task = createTask();
+
+    tasks += task;
   }
+
+  return tasks;
 };
 
 const init = () => {
   render(siteHeader, createMenu());
   render(siteMain, createFilter());
   render(siteMain, createBoard());
-
-  const board = siteMain.querySelector(`.board`);
-  const taskList = board.querySelector(`.board__tasks`);
-
-  render(taskList, createTaskEdit());
-  renderTaskList(taskList);
-  render(board, createLoadMoreButton());
 };
 
 init();
