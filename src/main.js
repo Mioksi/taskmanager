@@ -110,10 +110,12 @@ const createBoard = () => (
       <a href="#" class="board__filter">SORT BY DATE up</a>
       <a href="#" class="board__filter">SORT BY DATE down</a>
     </div>
-    <div class="board__tasks">${createTaskEdit()} ${renderTaskList()}</div>
+    ${createTaskList()}
     ${createLoadMoreButton()}
   </section>`
 );
+
+const createTaskList = () => `<div class="board__tasks">${createTaskEdit()} ${renderTaskList()}</div>`;
 
 const createTaskEdit = () => (
   `<article class="card card--edit card--yellow card--repeat">
