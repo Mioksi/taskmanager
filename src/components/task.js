@@ -1,4 +1,4 @@
-const TASK_COUNT = 3;
+import {TASK_COUNT} from '../common/consts.js';
 
 const createTask = () => (
   `<article class="card card--black">
