@@ -1,6 +1,4 @@
-import {TASK_COUNT} from '../common/consts.js';
-
-const createTask = () => (
+export const createTask = () => (
   `<article class="card card--black">
     <div class="card__form">
       <div class="card__inner">
@@ -42,15 +40,3 @@ const createTask = () => (
     </div>
   </article>`
 );
-
-export const createTaskList = () => {
-  let tasks = ``;
-
-  for (let i = 0; i < TASK_COUNT; i++) {
-    const task = createTask();
-
-    tasks += task;
-  }
-
-  return tasks;
-};
