@@ -1,14 +1,13 @@
-import {TASK_COUNT} from '../common/consts.js';
 import {createTask} from './task.js';
 import {createSorting} from './sorting.js';
 import {createBoardTasks} from './board-tasks.js';
 import {createLoadMoreButton} from './load-more-button.js';
 
-export const createTaskList = () => {
+const createTaskList = (element, count) => {
   let tasks = ``;
 
-  for (let i = 0; i < TASK_COUNT; i++) {
-    const task = createTask();
+  for (let i = 0; i < count; i++) {
+    const task = createTask(element[i]);
 
     tasks += task;
   }
@@ -16,10 +15,12 @@ export const createTaskList = () => {
   return tasks;
 };
 
-export const createBoard = () => (
+const createBoard = () => (
   `<section class="board container">
     ${createSorting()}
     ${createBoardTasks()}
     ${createLoadMoreButton()}
   </section>`
 );
+
+export {createTaskList, createBoard};
