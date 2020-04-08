@@ -1,6 +1,12 @@
-export const TASK_COUNT = 3;
+const TASK_COUNT = 3;
 
-export const Place = {
+const Place = {
   BEFOREEND: `beforeend`,
   AFTEREND: `afterend`
 };
+
+const FILTER_NAMES = [
+  `all`, `overdue`, `today`, `favorites`, `repeating`, `archive`
+];
+
+export {TASK_COUNT, Place, FILTER_NAMES};
