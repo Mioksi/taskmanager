@@ -26,4 +26,6 @@ const MONTHS = [
   `December`,
 ];
 
-export {TASK_COUNT, Place, FILTER_NAMES, COLORS, MONTHS};
+const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
+
+export {TASK_COUNT, Place, FILTER_NAMES, COLORS, MONTHS, DAYS};
