@@ -3,14 +3,14 @@ import {createSorting} from './sorting.js';
 import {createBoardTasks} from './board-tasks.js';
 import {createLoadMoreButton} from './load-more-button.js';
 
-const createTaskList = (element, count) => {
+const createTaskList = (elements) => {
   let tasks = ``;
 
-  for (let i = 0; i < count; i++) {
-    const task = createTask(element[i]);
+  elements.forEach((item) => {
+    const task = createTask(item);
 
     tasks += task;
-  }
+  });
 
   return tasks;
 };

@@ -1,17 +1,19 @@
-const TASK_COUNT = 20;
+export const TASK_COUNT = 20;
 
-const Place = {
+export const SHOWING_TASKS = 8;
+
+export const Place = {
   BEFOREEND: `beforeend`,
   AFTEREND: `afterend`
 };
 
-const FILTER_NAMES = [
+export const FILTER_NAMES = [
   `all`, `overdue`, `today`, `favorites`, `repeating`, `archive`
 ];
 
-const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
+export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
 
-const MONTHS = [
+export const MONTHS = [
   `January`,
   `February`,
   `March`,
@@ -26,6 +28,4 @@ const MONTHS = [
   `December`,
 ];
 
-const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
-
-export {TASK_COUNT, Place, FILTER_NAMES, COLORS, MONTHS, DAYS};
+export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];

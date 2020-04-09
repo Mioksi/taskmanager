@@ -5,6 +5,6 @@ import {generateTasks} from '../mock/tasks.js';
 
 const tasks = generateTasks(TASK_COUNT);
 
-const createBoardTasks = () => `<div class="board__tasks">${createTaskEdit(tasks[0])} ${createTaskList(tasks, TASK_COUNT)}</div>`;
+const createBoardTasks = () => `<div class="board__tasks">${createTaskEdit(tasks[0])} ${createTaskList(tasks.slice(1, 8))}</div>`;
 
-export {createBoardTasks};
+export {createBoardTasks, tasks};
