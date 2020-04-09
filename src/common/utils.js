@@ -14,6 +14,8 @@ const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(Math.random() * (max - min));
 };
 
+const getBoolean = () => Math.random() > 0.5;
+
 const castTimeFormat = (value) => {
   return value < 10 ? `0${value}` : String(value);
 };
@@ -25,4 +27,4 @@ const formatTime = (date) => {
   return `${hours}:${minutes}`;
 };
 
-export {render, castTimeFormat, formatTime, getRandomArrayItem, getRandomIntegerNumber};
+export {render, castTimeFormat, formatTime, getRandomArrayItem, getRandomIntegerNumber, getBoolean};

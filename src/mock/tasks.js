@@ -1,5 +1,5 @@
-import {COLORS} from '../common/consts.js';
-import {getRandomArrayItem, getRandomIntegerNumber} from '../common/utils.js';
+import {COLORS, DAYS} from '../common/consts.js';
+import {getRandomArrayItem, getRandomIntegerNumber, getBoolean} from '../common/utils.js';
 
 const DescriptionItems = [
   `Изучить теорию`,
@@ -19,7 +19,7 @@ const DefaultRepeatingDays = {
 
 const getRandomDate = () => {
   const targetDate = new Date();
-  const sign = Math.random() > 0.5 ? 1 : -1;
+  const sign = getBoolean() ? 1 : -1;
   const diffValue = sign * getRandomIntegerNumber(0, 8);
 
   targetDate.setDate(targetDate.getDate() + diffValue);
@@ -27,22 +27,20 @@ const getRandomDate = () => {
   return targetDate;
 };
 
-const generateRepeatingDays = () => {
-  return Object.assign({}, DefaultRepeatingDays, {
-    'mo': Math.random() > 0.5,
-  });
-};
+const getDay = (days, day) => Object.assign(days, {[day]: getBoolean()});
+
+const generateRepeatingDays = () => DAYS.reduce(getDay, {});
 
 const generateTask = () => {
-  const dueDate = Math.random() > 0.5 ? null : getRandomDate();
+  const dueDate = getBoolean() ? null : getRandomDate();
 
   return {
     description: getRandomArrayItem(DescriptionItems),
     dueDate,
     repeatingDays: dueDate ? DefaultRepeatingDays : generateRepeatingDays(),
     color: getRandomArrayItem(COLORS),
-    isArchive: Math.random() > 0.5,
-    isFavorite: Math.random() > 0.5,
+    isArchive: getBoolean(),
+    isFavorite: getBoolean(),
   };
 };
 
