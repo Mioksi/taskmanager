@@ -20,7 +20,30 @@ export const Place = {
 };
 
 export const FILTER_NAMES = [
-  `all`, `overdue`, `today`, `favorites`, `repeating`, `archive`
+  {
+    name: `all`,
+    isChecked: true
+  },
+  {
+    name: `overdue`,
+    isChecked: false
+  },
+  {
+    name: `today`,
+    isChecked: false
+  },
+  {
+    name: `favorites`,
+    isChecked: false
+  },
+  {
+    name: `repeating`,
+    isChecked: false
+  },
+  {
+    name: `archive`,
+    isChecked: false
+  },
 ];
 
 export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
