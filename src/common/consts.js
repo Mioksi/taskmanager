@@ -2,6 +2,18 @@ export const TASK_COUNT = 20;
 
 export const SHOWING_TASKS = 8;
 
+export const START_SHOWING_TASKS = 7;
+
+export const MAX_HOURS = 10;
+
+export const HOURS_FORMAT = 12;
+
+export const POSITIVE_SIGN = 1;
+
+export const NEGATIVE_SIGN = -1;
+
+export const MAX_DAYS = 8;
+
 export const Place = {
   BEFOREEND: `beforeend`,
   AFTEREND: `afterend`

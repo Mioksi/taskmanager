@@ -1,7 +1,7 @@
 import {COLORS, DAYS} from '../common/consts.js';
-import {getRandomArrayItem, getRandomIntegerNumber, getBoolean} from '../common/utils.js';
+import {getRandomNumber, getBoolean, getRandomDate} from '../common/utils.js';
 
-const DescriptionItems = [
+const DESCRIPTIONS = [
   `Изучить теорию`,
   `Сделать домашку`,
   `Пройти интенсив на соточку`,
@@ -17,38 +17,26 @@ const DefaultRepeatingDays = {
   'su': false,
 };
 
-const getRandomDate = () => {
-  const targetDate = new Date();
-  const sign = getBoolean() ? 1 : -1;
-  const diffValue = sign * getRandomIntegerNumber(0, 8);
-
-  targetDate.setDate(targetDate.getDate() + diffValue);
-
-  return targetDate;
-};
-
 const getDay = (days, day) => Object.assign(days, {[day]: getBoolean()});
 
 const generateRepeatingDays = () => DAYS.reduce(getDay, {});
+
+const isDueDate = (dueDate) => dueDate ? DefaultRepeatingDays : generateRepeatingDays();
 
 const generateTask = () => {
   const dueDate = getBoolean() ? null : getRandomDate();
 
   return {
-    description: getRandomArrayItem(DescriptionItems),
+    description: DESCRIPTIONS[getRandomNumber(DESCRIPTIONS.length)],
     dueDate,
-    repeatingDays: dueDate ? DefaultRepeatingDays : generateRepeatingDays(),
-    color: getRandomArrayItem(COLORS),
+    repeatingDays: isDueDate(dueDate),
+    color: COLORS[getRandomNumber(COLORS.length)],
     isArchive: getBoolean(),
     isFavorite: getBoolean(),
   };
 };
 
-const generateTasks = (count) => {
-  return new Array(count)
-    .fill(``)
-    .map(generateTask);
-};
+const generateTasks = (count) => new Array(count).fill(``).map(generateTask);
 
 
 export {generateTask, generateTasks};

@@ -1,12 +1,10 @@
 import {FILTER_NAMES} from "../common/consts.js";
 
-const generateFilters = () => {
-  return FILTER_NAMES.map((it) => {
-    return {
-      name: it,
-      count: Math.floor(Math.random() * 10),
-    };
-  });
-};
+const generateFilters = () => FILTER_NAMES.map((filter) => {
+  return {
+    name: filter,
+    count: Math.floor(Math.random() * 10)
+  };
+});
 
 export {generateFilters};

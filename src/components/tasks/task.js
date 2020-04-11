@@ -1,17 +1,10 @@
-import {MONTHS} from '../common/consts.js';
-import {formatTime} from '../common/utils.js';
+import {getTaskInfo} from "./task-edit.js";
 
 const createTask = (task) => {
-  const {description, dueDate, color, repeatingDays, isArchive, isFavorite} = task;
+  const {description, color, isArchive, isFavorite} = task;
 
-  const isExpired = dueDate instanceof Date && dueDate < Date.now();
-  const isDateShowing = !!dueDate;
+  const [, date, time, , repeatClass, deadlineClass] = getTaskInfo(task);
 
-  const date = isDateShowing ? `${dueDate.getDate()} ${MONTHS[dueDate.getMonth()]}` : ``;
-  const time = isDateShowing ? formatTime(dueDate) : ``;
-
-  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
-  const deadlineClass = isExpired ? `card--deadline` : ``;
   const archiveButtonInactiveClass = isArchive ? `` : `card__btn--disabled`;
   const favoriteButtonInactiveClass = isFavorite ? `` : `card__btn--disabled`;
 
