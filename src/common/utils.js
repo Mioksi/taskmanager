@@ -1,7 +1,21 @@
-import {Place, MAX_HOURS, HOURS_FORMAT, POSITIVE_SIGN, NEGATIVE_SIGN, MAX_DAYS} from '../common/consts.js';
+import {Place, Sign, MAX_HOURS, HOURS_FORMAT, MAX_DAYS} from './consts.js';
 
-export const render = (container, template, place = Place.BEFOREEND) => {
-  container.insertAdjacentHTML(place, template);
+export const render = (container, element, place = Place.BEFOREEND) => {
+  switch (place) {
+    case Place.AFTEREND:
+      container.prepend(element);
+      break;
+    case Place.BEFOREEND:
+      container.append(element);
+      break;
+  }
+};
+
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
 };
 
 export const getRandomNumber = (max, min = 0) => {
@@ -23,7 +37,7 @@ export const formatTime = (date) => {
 
 export const getRandomDate = () => {
   const targetDate = new Date();
-  const sign = getBoolean() ? POSITIVE_SIGN : NEGATIVE_SIGN;
+  const sign = getBoolean() ? Sign.POSITIVE : Sign.NEGATIVE;
   const diffValue = sign * getRandomNumber(MAX_DAYS);
 
   targetDate.setDate(targetDate.getDate() + diffValue);

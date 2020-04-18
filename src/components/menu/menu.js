@@ -1,4 +1,6 @@
-export const createMenu = () => (
+import {createElement} from "../../common/utils";
+
+const createMenu = () => (
   `<section class="control__btn-wrap">
     <input
       type="radio"
@@ -28,3 +30,25 @@ export const createMenu = () => (
     >
   </section>`
 );
+
+export default class Menu {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createMenu();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

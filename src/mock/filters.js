@@ -1,6 +1,31 @@
-import {FILTER_NAMES} from "../common/consts.js";
+export const filterNames = [
+  {
+    name: `all`,
+    isChecked: true
+  },
+  {
+    name: `overdue`,
+    isChecked: false
+  },
+  {
+    name: `today`,
+    isChecked: false
+  },
+  {
+    name: `favorites`,
+    isChecked: false
+  },
+  {
+    name: `repeating`,
+    isChecked: false
+  },
+  {
+    name: `archive`,
+    isChecked: false
+  },
+];
 
-const generateFilters = () => FILTER_NAMES.map((filter) => {
+const generateFilters = () => filterNames.map((filter) => {
   const {name, isChecked} = filter;
 
   return {

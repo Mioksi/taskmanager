@@ -1,9 +1,10 @@
-import {getTaskInfo} from "./task-edit.js";
+import {getTaskInfo} from './common/task-info';
+import {createElement} from '../../common/utils';
 
 const createTask = (task) => {
   const {description, color, isArchive, isFavorite} = task;
 
-  const [, date, time, , repeatClass, deadlineClass] = getTaskInfo(task);
+  const [date, time, repeatClass, deadlineClass] = getTaskInfo(task);
 
   const archiveButtonInactiveClass = isArchive ? `` : `card__btn--disabled`;
   const favoriteButtonInactiveClass = isFavorite ? `` : `card__btn--disabled`;
@@ -52,4 +53,25 @@ const createTask = (task) => {
   );
 };
 
-export {createTask};
+export default class Task {
+  constructor(task) {
+    this._task = task;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTask(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
