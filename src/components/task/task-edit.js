@@ -1,40 +1,5 @@
-import {COLORS, DAYS, MONTHS} from "../../common/consts";
-import {formatTime} from "../../common/utils";
-import {createColorsMarkup} from "./colors";
-import {createRepeatingDaysMarkup} from "./repeating-days";
-
-const getExpireTask = (dueDate) => {
-  const isExpired = dueDate instanceof Date && dueDate < Date.now();
-
-  return isExpired ? `card--deadline` : ``;
-};
-
-const getDateTask = (dueDate) => {
-  const isDateShowing = !!dueDate;
-  const date = isDateShowing ? `${dueDate.getDate()} ${MONTHS[dueDate.getMonth()]}` : ``;
-  const time = isDateShowing ? formatTime(dueDate) : ``;
-
-  return [isDateShowing, date, time];
-};
-
-const getRepeatInfo = (repeatingDays) => {
-  const isRepeatingTask = Object.values(repeatingDays).some(Boolean);
-  const repeatClass = isRepeatingTask ? `card--repeat` : ``;
-
-  return [isRepeatingTask, repeatClass];
-};
-
-const getTaskInfo = (task) => {
-  const {dueDate, color, repeatingDays} = task;
-
-  const deadlineClass = getExpireTask(dueDate);
-  const [isDateShowing, date, time] = getDateTask(dueDate);
-  const [isRepeatingTask, repeatClass] = getRepeatInfo(repeatingDays);
-  const colorsMarkup = createColorsMarkup(COLORS, color);
-  const repeatingDaysMarkup = createRepeatingDaysMarkup(DAYS, repeatingDays);
-
-  return [isDateShowing, date, time, isRepeatingTask, repeatClass, deadlineClass, colorsMarkup, repeatingDaysMarkup];
-};
+import {createElement} from '../../common/utils';
+import {getTaskInfo} from './common/task-info';
 
 const createDateDeadline = (date, time) => (
   `<fieldset class="card__date-deadline">
@@ -68,12 +33,12 @@ const createTaskEdit = (task) => {
   const {description, color} = task;
 
   const [
-    isDateShowing,
     date,
     time,
-    isRepeatingTask,
     repeatClass,
     deadlineClass,
+    isDateShowing,
+    isRepeatingTask,
     colorsMarkup,
     repeatingDaysMarkup
   ] = getTaskInfo(task);
@@ -126,4 +91,25 @@ const createTaskEdit = (task) => {
   );
 };
 
-export {createTaskEdit, getTaskInfo};
+export default class TaskEdit {
+  constructor(task) {
+    this._task = task;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTaskEdit(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

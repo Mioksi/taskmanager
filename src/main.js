@@ -1,40 +1,27 @@
-import {createMenu} from './components/menu.js';
-import {createFilterList} from './components/filter/filter-list.js';
+import {TASK_COUNT} from "./common/consts";
+import {render} from "./common/utils";
 import {generateFilters} from './mock/filters.js';
-import {createBoard} from './components/board/board.js';
-import {render} from './common/utils.js';
-import {tasksCopy} from './components/board/board-tasks.js';
-import {createTaskList} from './components/tasks/task-list.js';
-import {SHOWING_TASKS} from './common/consts.js';
+import {generateTasks} from "./mock/tasks";
+import {renderBoard} from "./components/board/utils/render-board";
+import {renderTask} from './components/task/utils/render-task';
+import MenuComponent from "./components/menu/menu";
+import FiltersComponent from "./components/filter/filters";
+import BoardComponent from "./components/board/board";
 
 const siteMain = document.querySelector(`.main`);
 const siteHeader = siteMain.querySelector(`.main__control`);
 
 const filters = generateFilters();
+const tasks = generateTasks(TASK_COUNT);
+
 
 const init = () => {
-  render(siteHeader, createMenu());
-  render(siteMain, createFilterList(filters));
-  render(siteMain, createBoard());
+  const boardComponent = new BoardComponent();
 
-  const taskList = document.querySelector(`.board__tasks`);
-  const loadMoreButton = siteMain.querySelector(`.load-more`);
-
-  const onLoadMoreButtonClick = () => {
-    render(taskList, createTaskList(tasksCopy.splice(0, SHOWING_TASKS)));
-
-    if (tasksCopy.length === 0) {
-      removeLoadMoreButton();
-    }
-  };
-
-  const removeLoadMoreButton = () => {
-    loadMoreButton.remove();
-
-    loadMoreButton.removeEventListener(`click`, onLoadMoreButtonClick);
-  };
-
-  loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
+  render(siteHeader, new MenuComponent().getElement());
+  render(siteMain, new FiltersComponent(filters).getElement());
+  render(siteMain, boardComponent.getElement());
+  renderBoard(boardComponent, tasks, renderTask);
 };
 
 init();
