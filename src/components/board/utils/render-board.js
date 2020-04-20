@@ -1,14 +1,18 @@
 import {SHOWING_TASKS} from '../../../common/consts';
-import {addLoadMoreEvent} from '../load-more-button';
+import {addLoadMoreEvent} from '../components/load-more-button';
 
 const renderBoard = (boardComponent, tasks, renderTask) => {
-  const taskList = boardComponent.getElement().querySelector(`.board__tasks`);
+  const isAllTasksArchived = tasks.every((task) => task.isArchive);
 
-  const renderTaskList = (task) => renderTask(taskList, task);
+  if (tasks.length > 0 || !isAllTasksArchived) {
+    const taskList = boardComponent.getElement().querySelector(`.board__tasks`);
 
-  tasks.splice(0, SHOWING_TASKS).map(renderTaskList);
+    const renderTaskList = (task) => renderTask(taskList, task);
 
-  addLoadMoreEvent(boardComponent, tasks, renderTaskList);
+    tasks.splice(0, SHOWING_TASKS).map(renderTaskList);
+
+    addLoadMoreEvent(boardComponent, tasks, renderTaskList);
+  }
 };
 
 export {renderBoard};

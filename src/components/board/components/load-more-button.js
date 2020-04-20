@@ -1,4 +1,4 @@
-import {SHOWING_TASKS} from '../../common/consts';
+import {SHOWING_TASKS} from '../../../common/consts';
 
 const createLoadMoreButton = () => `<button class="load-more" type="button">load more</button>`;
 
