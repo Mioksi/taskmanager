@@ -4,9 +4,11 @@ import {addLoadMoreEvent} from '../load-more-button';
 const renderBoard = (boardComponent, tasks, renderTask) => {
   const taskList = boardComponent.getElement().querySelector(`.board__tasks`);
 
-  tasks.splice(0, SHOWING_TASKS).forEach((task) => renderTask(taskList, task));
+  const renderTaskList = (task) => renderTask(taskList, task);
 
-  addLoadMoreEvent(boardComponent, tasks, renderTask, taskList);
+  tasks.splice(0, SHOWING_TASKS).map(renderTaskList);
+
+  addLoadMoreEvent(boardComponent, tasks, renderTaskList);
 };
 
 export {renderBoard};
