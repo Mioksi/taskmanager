@@ -5,10 +5,7 @@ import TaskEditComponent from '../task-edit';
 
 const renderTask = (taskListElement, task) => {
   const taskComponent = new TaskComponent(task);
-  const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
-
   const taskEditComponent = new TaskEditComponent(task);
-  const editForm = taskEditComponent.getElement().querySelector(`form`);
 
   const replaceTaskToEdit = () => {
     replace(taskEditComponent, taskComponent);
@@ -38,8 +35,8 @@ const renderTask = (taskListElement, task) => {
     document.removeEventListener(`keydown`, onFormEscPress);
   };
 
-  editButton.addEventListener(`click`, onEditButtonClick);
-  editForm.addEventListener(`submit`, onEditFormSubmit);
+  taskComponent.setEditButtonClickHandler(onEditButtonClick);
+  taskEditComponent.setSubmitHandler(onEditFormSubmit);
 
   render(taskListElement, taskComponent);
 };
