@@ -1,5 +1,5 @@
-import {createElement} from '../../common/utils';
 import {getTaskInfo} from './common/task-info';
+import AbstractComponent from '../abstract-component';
 
 const createDateDeadline = (date, time) => (
   `<fieldset class="card__date-deadline">
@@ -91,25 +91,18 @@ const createTaskEdit = (task) => {
   );
 };
 
-export default class TaskEdit {
+export default class TaskEdit extends AbstractComponent {
   constructor(task) {
+    super();
+
     this._task = task;
-    this._element = null;
   }
 
   getTemplate() {
     return createTaskEdit(this._task);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setSubmitHandler(handler) {
+    this.getElement().querySelector(`form`).addEventListener(`submit`, handler);
   }
 }

@@ -1,29 +1,9 @@
-import {Place, Sign, MAX_HOURS, HOURS_FORMAT, MAX_DAYS} from './consts.js';
-
-const ESC_KEY = `Escape`;
-
-export const render = (container, element, place = Place.BEFOREEND) => {
-  switch (place) {
-    case Place.AFTEREND:
-      container.prepend(element);
-      break;
-    case Place.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
+import {Sign, MAX_HOURS, HOURS_FORMAT, MAX_DAYS, ESC_KEY} from '../consts.js';
 
 export const isEscEvent = function (evt, action) {
   if (evt.key === ESC_KEY) {
     action();
   }
-};
-
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstChild;
 };
 
 export const getRandomNumber = (max, min = 0) => {

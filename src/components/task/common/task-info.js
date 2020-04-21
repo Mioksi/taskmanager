@@ -1,5 +1,5 @@
 import {COLORS, DAYS, MONTHS} from '../../../common/consts';
-import {formatTime} from '../../../common/utils';
+import {formatTime} from '../../../common/utils/helpers';
 import {createColorsMarkup} from './colors';
 import {createRepeatingDaysMarkup} from './repeating-days';
 

@@ -1,5 +1,5 @@
-import {createFilter} from './filter-item.js';
-import {createElement} from '../../common/utils';
+import {createFilter} from './components/filter-item.js';
+import AbstractComponent from '../abstract-component';
 
 const createFilterList = (filters) => {
   const filtersMarkup = filters.map(createFilter).join(``);
@@ -11,25 +11,14 @@ const createFilterList = (filters) => {
   );
 };
 
-export default class Filters {
+export default class Filters extends AbstractComponent {
   constructor(filters) {
+    super();
+
     this._filters = filters;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilterList(this._filters);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
