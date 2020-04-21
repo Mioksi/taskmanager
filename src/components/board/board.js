@@ -1,7 +1,7 @@
 import {createSorting} from './components/sorting.js';
 import {createBoardTasks} from './components/board-tasks.js';
 import {createLoadMoreButton} from './components/load-more-button.js';
-import {createElement} from '../../common/utils';
+import AbstractComponent from '../abstract-component';
 
 const createBoard = (tasks) => {
   const isAllTasksArchived = tasks.every((task) => task.isArchive);
@@ -18,25 +18,14 @@ const createEmptyBoard = () => `<p class="board__no-tasks">Click Â«ADD NEW TASKÂ
 
 const createFullBoard = () => `${createSorting()}${createBoardTasks()}${createLoadMoreButton()}`;
 
-export default class Board {
+export default class Filters extends AbstractComponent {
   constructor(tasks) {
-    this._element = null;
+    super();
+
     this._tasks = tasks;
   }
 
   getTemplate() {
     return createBoard(this._tasks);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
