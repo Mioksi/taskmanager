@@ -14,9 +14,8 @@ const siteHeader = siteMain.querySelector(`.main__control`);
 const filters = generateFilters();
 const tasks = generateTasks(TASK_COUNT);
 
-
 const init = () => {
-  const boardComponent = new BoardComponent();
+  const boardComponent = new BoardComponent(tasks);
 
   render(siteHeader, new MenuComponent().getElement());
   render(siteMain, new FiltersComponent(filters).getElement());

@@ -1,5 +1,7 @@
 import {Place, Sign, MAX_HOURS, HOURS_FORMAT, MAX_DAYS} from './consts.js';
 
+const ESC_KEY = `Escape`;
+
 export const render = (container, element, place = Place.BEFOREEND) => {
   switch (place) {
     case Place.AFTEREND:
@@ -8,6 +10,12 @@ export const render = (container, element, place = Place.BEFOREEND) => {
     case Place.BEFOREEND:
       container.append(element);
       break;
+  }
+};
+
+export const isEscEvent = function (evt, action) {
+  if (evt.key === ESC_KEY) {
+    action();
   }
 };
 

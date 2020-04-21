@@ -2,7 +2,7 @@ import {createFilter} from './filter-item.js';
 import {createElement} from '../../common/utils';
 
 const createFilterList = (filters) => {
-  const filtersMarkup = filters.map((createFilter)).join(``);
+  const filtersMarkup = filters.map(createFilter).join(``);
 
   return (
     `<section class="main__filter filter container">
