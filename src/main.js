@@ -1,5 +1,5 @@
 import {TASK_COUNT} from "./common/consts";
-import {render} from "./common/utils";
+import {render} from "./common/utils/render";
 import {generateFilters} from './mock/filters.js';
 import {generateTasks} from "./mock/tasks";
 import {renderBoard} from "./components/board/utils/render-board";
@@ -17,9 +17,9 @@ const tasks = generateTasks(TASK_COUNT);
 const init = () => {
   const boardComponent = new BoardComponent(tasks);
 
-  render(siteHeader, new MenuComponent().getElement());
-  render(siteMain, new FiltersComponent(filters).getElement());
-  render(siteMain, boardComponent.getElement());
+  render(siteHeader, new MenuComponent());
+  render(siteMain, new FiltersComponent(filters));
+  render(siteMain, boardComponent);
   renderBoard(boardComponent, tasks, renderTask);
 };
 

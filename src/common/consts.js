@@ -21,6 +21,8 @@ export const MONTHS = [
   `December`,
 ];
 
+export const ESC_KEY = `Escape`;
+
 export const Place = {
   BEFOREEND: `beforeend`,
   AFTEREND: `afterend`

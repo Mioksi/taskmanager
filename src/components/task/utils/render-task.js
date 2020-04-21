@@ -1,6 +1,7 @@
+import {isEscEvent} from '../../../common/utils/helpers';
+import {render, replace} from '../../../common/utils/render';
 import TaskComponent from '../task';
 import TaskEditComponent from '../task-edit';
-import {render, isEscEvent} from '../../../common/utils';
 
 const renderTask = (taskListElement, task) => {
   const taskComponent = new TaskComponent(task);
@@ -10,11 +11,11 @@ const renderTask = (taskListElement, task) => {
   const editForm = taskEditComponent.getElement().querySelector(`form`);
 
   const replaceTaskToEdit = () => {
-    taskListElement.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
+    replace(taskEditComponent, taskComponent);
   };
 
   const replaceEditToTask = () => {
-    taskListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+    replace(taskComponent, taskEditComponent);
   };
 
   const onFormEscPress = (evt) => {
@@ -40,7 +41,7 @@ const renderTask = (taskListElement, task) => {
   editButton.addEventListener(`click`, onEditButtonClick);
   editForm.addEventListener(`submit`, onEditFormSubmit);
 
-  render(taskListElement, taskComponent.getElement());
+  render(taskListElement, taskComponent);
 };
 
 export {renderTask};

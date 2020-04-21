@@ -1,5 +1,5 @@
 import {COLORS, DAYS} from '../common/consts.js';
-import {getRandomNumber, getBoolean, getRandomDate} from '../common/utils.js';
+import {getRandomNumber, getBoolean, getRandomDate} from '../common/utils/helpers.js';
 
 const DESCRIPTIONS = [
   `Изучить теорию`,
