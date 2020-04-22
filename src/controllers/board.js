@@ -1,4 +1,5 @@
-import {SHOWING_TASKS} from '../common/consts';
+import {Place, SHOWING_TASKS} from '../common/consts';
+import SortComponent from '../components/board/sort';
 import TaskComponent from '../components/task/task';
 import TaskEditComponent from '../components/task/task-edit';
 import {render, replace} from '../common/utils/render';
@@ -45,6 +46,8 @@ const renderTask = (taskListElement, task) => {
 export default class BoardController {
   constructor(container) {
     this._container = container;
+
+    this._sortComponent = new SortComponent();
   }
 
   render(tasks) {
@@ -65,10 +68,12 @@ export default class BoardController {
       loadMoreButton.addEventListener(`click`, onLoadMoreButtonClick);
     };
 
-    if (tasks.length > 0 || !isAllTasksArchived) {
+    if (!isAllTasksArchived) {
       const taskList = container.querySelector(`.board__tasks`);
 
       const renderTaskList = (task) => renderTask(taskList, task);
+
+      render(container, this._sortComponent, Place.AFTEREND);
 
       tasks.splice(0, SHOWING_TASKS).map(renderTaskList);
 

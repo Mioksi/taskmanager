@@ -1,4 +1,3 @@
-import {createSorting} from './components/sorting.js';
 import {createBoardTasks} from './components/board-tasks.js';
 import {createLoadMoreButton} from './components/load-more-button.js';
 import AbstractComponent from '../abstract-component';
@@ -16,7 +15,7 @@ const createBoard = (tasks) => {
 
 const createEmptyBoard = () => `<p class="board__no-tasks">Click «ADD NEW TASK» in menu to create your first task</p>`;
 
-const createFullBoard = () => `${createSorting()}${createBoardTasks()}${createLoadMoreButton()}`;
+const createFullBoard = () => `${createBoardTasks()}${createLoadMoreButton()}`;
 
 export default class Filters extends AbstractComponent {
   constructor(tasks) {
