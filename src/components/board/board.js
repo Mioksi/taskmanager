@@ -1,6 +1,5 @@
 import {createBoardTasks} from './components/board-tasks.js';
-import {createLoadMoreButton} from './components/load-more-button.js';
-import AbstractComponent from '../abstract-component';
+import AbstractComponent from '../abstracts/abstract-component';
 
 const createBoard = (tasks) => {
   const isAllTasksArchived = tasks.every((task) => task.isArchive);
@@ -15,7 +14,7 @@ const createBoard = (tasks) => {
 
 const createEmptyBoard = () => `<p class="board__no-tasks">Click «ADD NEW TASK» in menu to create your first task</p>`;
 
-const createFullBoard = () => `${createBoardTasks()}${createLoadMoreButton()}`;
+const createFullBoard = () => `${createBoardTasks()}`;
 
 export default class Filters extends AbstractComponent {
   constructor(tasks) {
