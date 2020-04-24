@@ -31,3 +31,8 @@ export const Sign = {
   NEGATIVE: -1,
   POSITIVE: 1
 };
+export const SortType = {
+  DATE_DOWN: `date-down`,
+  DATE_UP: `date-up`,
+  DEFAULT: `default`,
+};

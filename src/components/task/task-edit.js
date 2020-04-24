@@ -1,5 +1,5 @@
 import {getTaskInfo} from './common/task-info';
-import AbstractComponent from '../abstract-component';
+import AbstractComponent from '../abstracts/abstract-component';
 
 const createDateDeadline = (date, time) => (
   `<fieldset class="card__date-deadline">

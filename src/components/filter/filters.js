@@ -1,5 +1,5 @@
 import {createFilter} from './components/filter-item.js';
-import AbstractComponent from '../abstract-component';
+import AbstractComponent from '../abstracts/abstract-component';
 
 const createFilterList = (filters) => {
   const filtersMarkup = filters.map(createFilter).join(``);
