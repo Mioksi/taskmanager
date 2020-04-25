@@ -1,7 +1,6 @@
-import {COLORS, DAYS, MONTHS} from '../../../common/consts';
+import {COLORS, MONTHS} from '../../../common/consts';
 import {formatTime} from '../../../common/utils/helpers';
 import {createColorsMarkup} from './colors';
-import {createRepeatingDaysMarkup} from './repeating-days';
 
 const getExpireTask = (dueDate) => {
   const isExpired = dueDate instanceof Date && dueDate < Date.now();
@@ -11,29 +10,28 @@ const getExpireTask = (dueDate) => {
 
 const getDateTask = (dueDate) => {
   const isDateShowing = !!dueDate;
-  const date = isDateShowing ? `${dueDate.getDate()} ${MONTHS[dueDate.getMonth()]}` : ``;
-  const time = isDateShowing ? formatTime(dueDate) : ``;
 
-  return [isDateShowing, date, time];
+  const date = (isDateShowing && dueDate) ? `${dueDate.getDate()} ${MONTHS[dueDate.getMonth()]}` : ``;
+  const time = (isDateShowing && dueDate) ? formatTime(dueDate) : ``;
+
+  return [date, time];
 };
 
 const getRepeatInfo = (repeatingDays) => {
   const isRepeatingTask = Object.values(repeatingDays).some(Boolean);
-  const repeatClass = isRepeatingTask ? `card--repeat` : ``;
 
-  return [isRepeatingTask, repeatClass];
+  return isRepeatingTask ? `card--repeat` : ``;
 };
 
 const getTaskInfo = (task) => {
   const {dueDate, color, repeatingDays} = task;
 
   const deadlineClass = getExpireTask(dueDate);
-  const [isDateShowing, date, time] = getDateTask(dueDate);
-  const [isRepeatingTask, repeatClass] = getRepeatInfo(repeatingDays);
+  const [date, time] = getDateTask(dueDate);
+  const repeatClass = getRepeatInfo(repeatingDays);
   const colorsMarkup = createColorsMarkup(COLORS, color);
-  const repeatingDaysMarkup = createRepeatingDaysMarkup(DAYS, repeatingDays);
 
-  return [date, time, repeatClass, deadlineClass, isDateShowing, isRepeatingTask, colorsMarkup, repeatingDaysMarkup];
+  return [date, time, repeatClass, deadlineClass, colorsMarkup];
 };
 
 export {getTaskInfo};
