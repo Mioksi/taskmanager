@@ -108,6 +108,10 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
     this._submitHandler = null;
 
+    this._onDeadlineToggleClick = this._onDeadlineToggleClick.bind(this);
+    this._onRepeatToggleClick = this._onRepeatToggleClick.bind(this);
+    this._onRepeatDayChange = this._onRepeatDayChange.bind(this);
+
     this._subscribeOnEvents();
   }
 
@@ -144,30 +148,36 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._submitHandler = handler;
   }
 
+  _onDeadlineToggleClick() {
+    this._isDateShowing = !this._isDateShowing;
+
+    this.rerender();
+  }
+
+  _onRepeatToggleClick() {
+    this._isRepeatingTask = !this._isRepeatingTask;
+
+    this.rerender();
+  }
+
+  _onRepeatDayChange(evt) {
+    this._activeRepeatingDays[evt.target.value] = evt.target.checked;
+
+    this.rerender();
+  }
+
   _subscribeOnEvents() {
     const element = this.getElement();
 
     element.querySelector(`.card__date-deadline-toggle`)
-      .addEventListener(`click`, () => {
-        this._isDateShowing = !this._isDateShowing;
+      .addEventListener(`click`, this._onDeadlineToggleClick);
 
-        this.rerender();
-      });
-
-    element.querySelector(`.card__repeat-toggle`)
-      .addEventListener(`click`, () => {
-        this._isRepeatingTask = !this._isRepeatingTask;
-
-        this.rerender();
-      });
+    element.querySelector(`.card__repeat-toggle`).addEventListener(`click`, this._onRepeatToggleClick);
 
     const repeatDays = element.querySelector(`.card__repeat-days`);
-    if (repeatDays) {
-      repeatDays.addEventListener(`change`, (evt) => {
-        this._activeRepeatingDays[evt.target.value] = evt.target.checked;
 
-        this.rerender();
-      });
+    if (repeatDays) {
+      repeatDays.addEventListener(`change`, this._onRepeatDayChange);
     }
   }
 }

@@ -24,6 +24,17 @@ export default class TaskController {
     this._taskComponent = new TaskComponent(task);
     this._taskEditComponent = new TaskEditComponent(task);
 
+    this._addTaskHandlers(task);
+
+    if (oldTaskEditComponent && oldTaskComponent) {
+      replace(this._taskComponent, oldTaskComponent);
+      replace(this._taskEditComponent, oldTaskEditComponent);
+    } else {
+      render(this._container, this._taskComponent);
+    }
+  }
+
+  _addTaskHandlers(task) {
     this._taskComponent.setEditButtonClickHandler(() => {
       this._replaceTaskToEdit();
 
@@ -47,13 +58,6 @@ export default class TaskController {
 
       this._replaceEditToTask();
     });
-
-    if (oldTaskEditComponent && oldTaskComponent) {
-      replace(this._taskComponent, oldTaskComponent);
-      replace(this._taskEditComponent, oldTaskEditComponent);
-    } else {
-      render(this._container, this._taskComponent);
-    }
   }
 
   setDefaultView() {
