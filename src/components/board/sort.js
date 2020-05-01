@@ -14,6 +14,7 @@ export default class Sort extends AbstractComponent {
     super();
 
     this._currenSortType = SortType.DEFAULT;
+    this._onSortTypeChange = this.onSortTypeChange.bind(this);
   }
 
   getTemplate() {
@@ -24,11 +25,11 @@ export default class Sort extends AbstractComponent {
     return this._currenSortType;
   }
 
-  setSortTypeChangeHandler(handler) {
-    this.getElement().addEventListener(`click`, (evt) => {
+  onSortTypeChange(handler) {
+    return (evt) => {
       evt.preventDefault();
 
-      if (evt.target.tagName !== `A`) {
+      if (!evt.target.dataset.sortType) {
         return;
       }
 
@@ -41,6 +42,10 @@ export default class Sort extends AbstractComponent {
       this._currenSortType = sortType;
 
       handler(this._currenSortType);
-    });
+    };
+  }
+
+  setSortTypeChangeHandler(handler) {
+    this.getElement().addEventListener(`click`, this._onSortTypeChange(handler));
   }
 }
