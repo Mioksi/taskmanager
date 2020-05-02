@@ -1,5 +1,5 @@
-import {COLORS, MONTHS} from '../../../common/consts';
-import {formatTime} from '../../../common/utils/helpers';
+import {COLORS} from '../../../common/consts';
+import {formatTime, formatDate} from '../../../common/utils/helpers';
 import {createColorsMarkup} from './colors';
 
 const getExpireTask = (dueDate) => {
@@ -11,7 +11,7 @@ const getExpireTask = (dueDate) => {
 const getDateTask = (dueDate) => {
   const isDateShowing = !!dueDate;
 
-  const date = (isDateShowing && dueDate) ? `${dueDate.getDate()} ${MONTHS[dueDate.getMonth()]}` : ``;
+  const date = (isDateShowing && dueDate) ? formatDate(dueDate) : ``;
   const time = (isDateShowing && dueDate) ? formatTime(dueDate) : ``;
 
   return [date, time];

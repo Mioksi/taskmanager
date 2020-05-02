@@ -1,7 +1,10 @@
 import {getTaskInfo} from './common/task-info';
 import AbstractSmartComponent from '../abstracts/abstract-smart-component';
 import {createRepeatingDaysMarkup} from './common/repeating-days';
-import {DAYS} from '../../common/consts';
+import {CURRENT_DAY, DAYS} from '../../common/consts';
+import flatpickr from "flatpickr";
+
+import "flatpickr/dist/flatpickr.min.css";
 
 const isRepeating = (repeatingDays) => Object.values(repeatingDays).some(Boolean);
 
@@ -107,11 +110,13 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
     this._submitHandler = null;
+    this._flatpickr = null;
 
     this._onDeadlineToggleClick = this._onDeadlineToggleClick.bind(this);
     this._onRepeatToggleClick = this._onRepeatToggleClick.bind(this);
     this._onRepeatDayChange = this._onRepeatDayChange.bind(this);
 
+    this._applyFlatpickr();
     this._subscribeOnEvents();
   }
 
@@ -130,6 +135,8 @@ export default class TaskEdit extends AbstractSmartComponent {
 
   rerender() {
     super.rerender();
+
+    this._applyFlatpickr();
   }
 
   reset() {
@@ -164,6 +171,35 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._activeRepeatingDays[evt.target.value] = evt.target.checked;
 
     this.rerender();
+  }
+
+  _setFlatpickr() {
+    return {
+      altInput: true,
+      allowInput: true,
+      defaultDate: this._task.dueDate || CURRENT_DAY
+    };
+  }
+
+  _destroyFlatpickr() {
+    this._flatpickr.destroy();
+    this._flatpickr = null;
+  }
+
+  _initFlatpickr() {
+    const dateElement = this.getElement().querySelector(`.card__date`);
+
+    this._flatpickr = flatpickr(dateElement, this._setFlatpickr());
+  }
+
+  _applyFlatpickr() {
+    if (this._flatpickr) {
+      this._destroyFlatpickr();
+    }
+
+    if (this._isDateShowing) {
+      this._initFlatpickr();
+    }
   }
 
   _subscribeOnEvents() {

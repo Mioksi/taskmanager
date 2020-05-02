@@ -1,4 +1,5 @@
-import {Sign, MAX_HOURS, HOURS_FORMAT, MAX_DAYS} from '../consts.js';
+import {Sign, MAX_DAYS} from '../consts.js';
+import moment from "moment";
 
 export const getRandomNumber = (max, min = 0) => {
   return min + Math.floor(Math.random() * (max - min));
@@ -6,15 +7,12 @@ export const getRandomNumber = (max, min = 0) => {
 
 export const getBoolean = () => Math.random() > 0.5;
 
-export const castTimeFormat = (value) => {
-  return value < MAX_HOURS ? `0${value}` : String(value);
+export const formatTime = (date) => {
+  return moment(date).format(`hh:mm`);
 };
 
-export const formatTime = (date) => {
-  const hours = castTimeFormat(date.getHours() % HOURS_FORMAT);
-  const minutes = castTimeFormat(date.getMinutes());
-
-  return `${hours}:${minutes}`;
+export const formatDate = (date) => {
+  return moment(date).format(`DD MMMM`);
 };
 
 export const getRandomDate = () => {
