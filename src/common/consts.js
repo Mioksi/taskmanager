@@ -8,6 +8,7 @@ export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 export const ESC_KEY = `Escape`;
 
 export const CURRENT_DAY = `today`;
+export const FILTER_ID_PREFIX = `filter__`;
 
 export const Place = {
   BEFOREEND: `beforeend`,
@@ -25,4 +26,12 @@ export const SortType = {
 export const Mode = {
   DEFAULT: `default`,
   EDIT: `edit`,
+};
+export const FilterType = {
+  ALL: `all`,
+  OVERDUE: `overdue`,
+  TODAY: `today`,
+  FAVORITES: `favorites`,
+  REPEATING: `repeating`,
+  ARCHIVE: `archive`,
 };

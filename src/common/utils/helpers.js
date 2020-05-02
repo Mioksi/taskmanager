@@ -7,13 +7,8 @@ export const getRandomNumber = (max, min = 0) => {
 
 export const getBoolean = () => Math.random() > 0.5;
 
-export const formatTime = (date) => {
-  return moment(date).format(`hh:mm`);
-};
-
-export const formatDate = (date) => {
-  return moment(date).format(`DD MMMM`);
-};
+export const formatTime = (date) => moment(date).format(`hh:mm`);
+export const formatDate = (date) => moment(date).format(`DD MMMM`);
 
 export const getRandomDate = () => {
   const targetDate = new Date();
@@ -23,4 +18,15 @@ export const getRandomDate = () => {
   targetDate.setDate(targetDate.getDate() + diffValue);
 
   return targetDate;
+};
+
+export const isRepeating = (repeatingDays) => Object.values(repeatingDays).some(Boolean);
+
+export const isOverdueDate = (dueDate, date) => dueDate < date && !isOneDay(date, dueDate);
+
+export const isOneDay = (dateA, dateB) => {
+  const firstDate = moment(dateA);
+  const secondDate = moment(dateB);
+
+  return firstDate.diff(secondDate, `days`) === 0 && dateA.getDate() === dateB.getDate();
 };

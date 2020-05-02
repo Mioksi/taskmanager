@@ -1,7 +1,7 @@
 import {Mode, ESC_KEY} from '../common/consts';
 import TaskComponent from '../components/task/task';
 import TaskEditComponent from '../components/task/task-edit';
-import {render, replace} from '../common/utils/render';
+import {render, replace, remove} from '../common/utils/render';
 
 export default class TaskController {
   constructor(container, onDataChange, onViewChange) {
@@ -64,6 +64,13 @@ export default class TaskController {
     if (this._mode !== Mode.DEFAULT) {
       this._replaceEditToTask();
     }
+  }
+
+  destroy() {
+    remove(this._taskEditComponent);
+    remove(this._taskComponent);
+
+    document.removeEventListener(`keydown`, this._onFormEscPress);
   }
 
   _replaceEditToTask() {
