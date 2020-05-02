@@ -7,6 +7,8 @@ export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
 export const ESC_KEY = `Escape`;
 
+export const CURRENT_DAY = `today`;
+
 export const Place = {
   BEFOREEND: `beforeend`,
   AFTEREND: `afterend`

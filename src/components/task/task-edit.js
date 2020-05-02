@@ -1,7 +1,7 @@
 import {getTaskInfo} from './common/task-info';
 import AbstractSmartComponent from '../abstracts/abstract-smart-component';
 import {createRepeatingDaysMarkup} from './common/repeating-days';
-import {DAYS} from '../../common/consts';
+import {CURRENT_DAY, DAYS} from '../../common/consts';
 import flatpickr from "flatpickr";
 
 import "flatpickr/dist/flatpickr.min.css";
@@ -173,19 +173,32 @@ export default class TaskEdit extends AbstractSmartComponent {
     this.rerender();
   }
 
+  _setFlatpickr() {
+    return {
+      altInput: true,
+      allowInput: true,
+      defaultDate: this._task.dueDate || CURRENT_DAY
+    };
+  }
+
+  _destroyFlatpickr() {
+    this._flatpickr.destroy();
+    this._flatpickr = null;
+  }
+
+  _initFlatpickr() {
+    const dateElement = this.getElement().querySelector(`.card__date`);
+
+    this._flatpickr = flatpickr(dateElement, this._setFlatpickr());
+  }
+
   _applyFlatpickr() {
     if (this._flatpickr) {
-      this._flatpickr.destroy();
-      this._flatpickr = null;
+      this._destroyFlatpickr();
     }
 
     if (this._isDateShowing) {
-      const dateElement = this.getElement().querySelector(`.card__date`);
-      this._flatpickr = flatpickr(dateElement, {
-        altInput: true,
-        allowInput: true,
-        defaultDate: this._task.dueDate || `today`,
-      });
+      this._initFlatpickr();
     }
   }
 
