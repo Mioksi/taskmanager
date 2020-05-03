@@ -40,13 +40,13 @@ const createTaskEdit = (task, options = {}) => {
   const {description, color} = task;
   const {isDateShowing, isRepeatingTask, activeRepeatingDays} = options;
 
-  const [
+  const {
     date,
     time,
     repeatClass,
     deadlineClass,
     colorsMarkup
-  ] = getTaskInfo(task, isDateShowing);
+  } = getTaskInfo(task, isDateShowing);
 
   const isBlockSaveButton = (isDateShowing && isRepeatingTask) ||
     (isRepeatingTask && !isRepeating(activeRepeatingDays));

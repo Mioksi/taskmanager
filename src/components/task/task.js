@@ -5,7 +5,7 @@ import AbstractComponent from '../abstracts/abstract-component';
 const createTask = (task) => {
   const {description, color} = task;
 
-  const [date, time, repeatClass, deadlineClass] = getTaskInfo(task);
+  const {date, time, repeatClass, deadlineClass} = getTaskInfo(task);
 
   const editButton = createTaskButton(`edit`);
   const archiveButton = createTaskButton(`archive`, !task.isArchive);

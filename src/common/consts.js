@@ -2,13 +2,22 @@ export const TASK_COUNT = 20;
 export const SHOWING_TASKS = 8;
 export const MAX_DAYS = 8;
 
-export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
 export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
 export const ESC_KEY = `Escape`;
 
 export const CURRENT_DAY = `today`;
 export const FILTER_ID_PREFIX = `filter__`;
+
+const color = {
+  BLACK: `black`,
+  YELLOW: `yellow`,
+  BLUE: `blue`,
+  GREEN: `green`,
+  PINK: `pink`,
+};
+
+export const COLORS = Object.values(color);
 
 export const Place = {
   BEFOREEND: `beforeend`,

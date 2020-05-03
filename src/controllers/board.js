@@ -131,13 +131,10 @@ export default class BoardController {
   _onSortTypeChange(sortType) {
     this._showingTasksCount = SHOWING_TASKS;
 
-    const container = this._container.getElement();
     const sortedTasks = getSortedTasks(this._tasksModel.getTasks(), sortType, 0, this._showingTasksCount);
-    const taskList = container.querySelector(`.board__tasks`);
 
-    taskList.innerHTML = ``;
-
-    this._showedTaskControllers = renderTasks(taskList, sortedTasks, this._onDataChange, this._onViewChange);
+    this._removeTasks();
+    this._renderTasks(sortedTasks);
 
     this._renderLoadMoreButton();
   }
