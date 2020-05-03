@@ -1,14 +1,14 @@
-import {Place, SortType, SHOWING_TASKS} from '../common/consts';
+import {Place, SortType, SHOWING_TASKS, Mode} from '../common/consts';
 import {render, remove} from '../common/utils/render';
 import SortComponent from '../components/board/sort';
 import LoadMoreButtonComponent from '../components/board/load-more-button';
-import TaskController from './task';
+import TaskController, {EmptyTask} from './task';
 
 const renderTasks = (taskList, tasks, onDataChange, onViewChange) => {
   return tasks.map((task) => {
     const taskController = new TaskController(taskList, onDataChange, onViewChange);
 
-    taskController.render(task);
+    taskController.render(task, Mode.DEFAULT);
 
     return taskController;
   });
@@ -43,6 +43,7 @@ export default class BoardController {
 
     this._sortComponent = new SortComponent();
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
+    this._creatingTask = null;
 
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
@@ -60,11 +61,22 @@ export default class BoardController {
     const isAllTasksArchived = tasks.every((task) => task.isArchive);
 
     if (!isAllTasksArchived) {
-      render(container, this._sortComponent, Place.AFTEREND);
+      render(container, this._sortComponent, Place.AFTERBEGIN);
 
       this._renderTasks(tasks.slice(0, this._showingTasksCount));
       this._renderLoadMoreButton();
     }
+  }
+
+  createTask() {
+    if (this._creatingTask) {
+      return;
+    }
+    const container = this._container.getElement();
+    const taskList = container.querySelector(`.board__tasks`);
+
+    this._creatingTask = new TaskController(taskList, this._onDataChange, this._onViewChange);
+    this._creatingTask.render(EmptyTask, Mode.ADDING);
   }
 
   _removeTasks() {
@@ -117,10 +129,35 @@ export default class BoardController {
   }
 
   _onDataChange(taskController, oldData, newData) {
-    const isSuccess = this._tasksModel.updateTask(oldData.id, newData);
+    if (oldData === EmptyTask) {
+      this._creatingTask = null;
 
-    if (isSuccess) {
-      taskController.render(newData);
+      if (newData === null) {
+        taskController.destroy();
+        this._updateTasks(this._showingTasksCount);
+      } else {
+        this._tasksModel.addTask(newData);
+        taskController.render(newData, Mode.DEFAULT);
+
+        if (this._showingTasksCount % SHOWING_TASKS === 0) {
+          const destroyedTask = this._showedTaskControllers.pop();
+          destroyedTask.destroy();
+        }
+
+        this._showedTaskControllers = [].concat(taskController, this._showedTaskControllers);
+        this._showingTasksCount = this._showedTaskControllers.length;
+
+        this._renderLoadMoreButton();
+      }
+    } else if (newData === null) {
+      this._tasksModel.removeTask(oldData.id);
+      this._updateTasks(this._showingTasksCount);
+    } else {
+      const isSuccess = this._tasksModel.updateTask(oldData.id, newData);
+
+      if (isSuccess) {
+        taskController.render(newData, Mode.DEFAULT);
+      }
     }
   }
 

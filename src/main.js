@@ -1,7 +1,7 @@
 import {TASK_COUNT} from "./common/consts";
 import {render} from "./common/utils/render";
 import {generateTasks} from "./mock/tasks";
-import MenuComponent from "./components/menu/menu";
+import MenuComponent, {MenuItem} from "./components/menu/menu";
 import BoardComponent from "./components/board/board";
 import BoardController from './controllers/board';
 import FilterController from './controllers/filter';
@@ -20,11 +20,21 @@ const init = () => {
   const boardComponent = new BoardComponent(tasks);
   const boardController = new BoardController(boardComponent, tasksModel);
   const filterController = new FilterController(siteMain, tasksModel);
+  const siteMenuComponent = new MenuComponent();
 
-  render(siteHeader, new MenuComponent());
+  render(siteHeader, siteMenuComponent);
   filterController.render();
   render(siteMain, boardComponent);
   boardController.render();
+
+  siteMenuComponent.setOnChange((menuItem) => {
+    switch (menuItem) {
+      case MenuItem.NEW_TASK:
+        siteMenuComponent.setActiveItem(MenuItem.TASKS);
+        boardController.createTask();
+        break;
+    }
+  });
 };
 
 init();

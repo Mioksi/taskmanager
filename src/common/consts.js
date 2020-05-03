@@ -9,7 +9,7 @@ export const ESC_KEY = `Escape`;
 export const CURRENT_DAY = `today`;
 export const FILTER_ID_PREFIX = `filter__`;
 
-const color = {
+export const color = {
   BLACK: `black`,
   YELLOW: `yellow`,
   BLUE: `blue`,
@@ -21,7 +21,7 @@ export const COLORS = Object.values(color);
 
 export const Place = {
   BEFOREEND: `beforeend`,
-  AFTEREND: `afterend`
+  AFTERBEGIN: `afterbegin`
 };
 export const Sign = {
   NEGATIVE: -1,
@@ -33,6 +33,7 @@ export const SortType = {
   DEFAULT: `default`,
 };
 export const Mode = {
+  ADDING: `adding`,
   DEFAULT: `default`,
   EDIT: `edit`,
 };

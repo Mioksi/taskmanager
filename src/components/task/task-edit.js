@@ -101,6 +101,23 @@ const createTaskEdit = (task, options = {}) => {
   );
 };
 
+const parseFormData = (formData) => {
+  const getDay = (days, day) => Object.assign(days, {[day]: false});
+  const repeatingDays = () => DAYS.reduce(getDay, {});
+
+  const date = formData.get(`date`);
+
+  return {
+    description: formData.get(`text`),
+    color: formData.get(`color`),
+    dueDate: date ? new Date(date) : null,
+    repeatingDays: formData.getAll(`repeat`).reduce((acc, it) => {
+      acc[it] = true;
+      return acc;
+    }, repeatingDays),
+  };
+};
+
 export default class TaskEdit extends AbstractSmartComponent {
   constructor(task) {
     super();
@@ -110,6 +127,7 @@ export default class TaskEdit extends AbstractSmartComponent {
     this._isRepeatingTask = Object.values(task.repeatingDays).some(Boolean);
     this._activeRepeatingDays = Object.assign({}, task.repeatingDays);
     this._submitHandler = null;
+    this._deleteButtonClickHandler = null;
     this._flatpickr = null;
 
     this._onDeadlineToggleClick = this._onDeadlineToggleClick.bind(this);
@@ -128,8 +146,17 @@ export default class TaskEdit extends AbstractSmartComponent {
     });
   }
 
+  removeElement() {
+    if (this._flatpickr) {
+      this._destroyFlatpickr();
+    }
+
+    super.removeElement();
+  }
+
   recoveryListeners() {
     this.setSubmitHandler(this._submitHandler);
+    this.setDeleteButtonClickHandler(this._deleteButtonClickHandler);
     this._subscribeOnEvents();
   }
 
@@ -149,10 +176,23 @@ export default class TaskEdit extends AbstractSmartComponent {
     this.rerender();
   }
 
+  getData() {
+    const form = this.getElement().querySelector(`.card__form`);
+    const formData = new FormData(form);
+
+    return parseFormData(formData);
+  }
+
   setSubmitHandler(handler) {
     this.getElement().querySelector(`form`).addEventListener(`submit`, handler);
 
     this._submitHandler = handler;
+  }
+
+  setDeleteButtonClickHandler(handler) {
+    this.getElement().querySelector(`.card__delete`).addEventListener(`click`, handler);
+
+    this._deleteButtonClickHandler = handler;
   }
 
   _onDeadlineToggleClick() {

@@ -9,7 +9,7 @@ export const createElement = (template) => {
 
 export const render = (container, component, place = Place.BEFOREEND) => {
   switch (place) {
-    case Place.AFTEREND:
+    case Place.AFTERBEGIN:
       container.prepend(component.getElement());
       break;
     case Place.BEFOREEND:
