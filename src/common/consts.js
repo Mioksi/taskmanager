@@ -1,6 +1,8 @@
 export const TASK_COUNT = 20;
 export const SHOWING_TASKS = 8;
 export const MAX_DAYS = 8;
+export const MIN_DESCRIPTION_LENGTH = 1;
+export const MAX_DESCRIPTION_LENGTH = 140;
 
 export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
