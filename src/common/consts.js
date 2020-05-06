@@ -11,15 +11,17 @@ export const ESC_KEY = `Escape`;
 export const CURRENT_DAY = `today`;
 export const FILTER_ID_PREFIX = `filter__`;
 
-export const color = {
+export const FORMAT_TIME = `hh:mm`;
+export const FORMAT_DATE = `DD MMMM`;
+
+export const Color = {
   BLACK: `black`,
   YELLOW: `yellow`,
   BLUE: `blue`,
   GREEN: `green`,
   PINK: `pink`,
 };
-
-export const COLORS = Object.values(color);
+export const COLORS = Object.values(Color);
 
 export const Place = {
   BEFOREEND: `beforeend`,

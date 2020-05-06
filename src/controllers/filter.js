@@ -20,13 +20,7 @@ export default class FilterController {
   render() {
     const container = this._container;
     const allTasks = this._tasksModel.getTasksAll();
-    const filters = Object.values(FilterType).map((filterType) => {
-      return {
-        name: filterType,
-        count: getTasksByFilter(allTasks, filterType).length,
-        checked: filterType === this._activeFilterType,
-      };
-    });
+    const filters = Object.values(FilterType).map((filterType) => this._getFilter(filterType, allTasks));
     const oldComponent = this._filterComponent;
 
     this._filterComponent = new FilterComponent(filters);
@@ -37,6 +31,14 @@ export default class FilterController {
     } else {
       render(container, this._filterComponent);
     }
+  }
+
+  _getFilter(filterType, allTasks) {
+    return {
+      name: filterType,
+      count: getTasksByFilter(allTasks, filterType).length,
+      checked: filterType === this._activeFilterType,
+    };
   }
 
   _onFilterChange(filterType) {

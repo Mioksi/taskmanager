@@ -117,14 +117,13 @@ const parseFormData = (formData) => {
 
   const date = formData.get(`date`);
 
+  const getRepeatingDay = (days, day) => Object.assign(days, {[day]: true});
+
   return {
     description: formData.get(`text`),
     color: formData.get(`color`),
     dueDate: date ? new Date(date) : null,
-    repeatingDays: formData.getAll(`repeat`).reduce((acc, it) => {
-      acc[it] = true;
-      return acc;
-    }, repeatingDays),
+    repeatingDays: formData.getAll(`repeat`).reduce(getRepeatingDay, repeatingDays),
   };
 };
 

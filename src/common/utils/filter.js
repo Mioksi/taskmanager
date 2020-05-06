@@ -1,4 +1,3 @@
-import {FilterType} from '../consts';
 import {isOverdueDate, isRepeating, isOneDay} from './helpers';
 
 export const getArchiveTasks = (tasks) => {
@@ -13,43 +12,33 @@ export const getFavoriteTasks = (tasks) => {
   return tasks.filter((task) => task.isFavorite);
 };
 
-export const getOverdueTasks = (tasks, date) => {
-  return tasks.filter((task) => {
-    const dueDate = task.dueDate;
+const getOverdueTask = (task, date) => {
+  const dueDate = task.dueDate;
 
-    if (!dueDate) {
-      return false;
-    }
+  if (!dueDate) {
+    return false;
+  }
 
-    return isOverdueDate(dueDate, date);
-  });
+  return isOverdueDate(dueDate, date);
 };
 
-export const getRepeatingTasks = (tasks) => {
-  return tasks.filter((task) => isRepeating(task.repeatingDays));
-};
+export const getOverdueTasks = (tasks, date) => tasks.filter((task) => getOverdueTask(task, date));
 
-export const getTasksInOneDay = (tasks, date) => {
-  return tasks.filter((task) => isOneDay(task.dueDate, date));
+export const getRepeatingTasks = (tasks) => tasks.filter((task) => isRepeating(task.repeatingDays));
+
+export const getTasksInOneDay = (tasks, date) => tasks.filter((task) => isOneDay(task.dueDate, date));
+
+const filterTypes = {
+  'all': (tasks) => getNotArchiveTasks(tasks),
+  'overdue': (tasks, nowDate) => getOverdueTasks(getNotArchiveTasks(tasks), nowDate),
+  'today': (tasks, nowDate) => getTasksInOneDay(getNotArchiveTasks(tasks), nowDate),
+  'favorites': (tasks) => getFavoriteTasks(getNotArchiveTasks(tasks)),
+  'repeating': (tasks) => getRepeatingTasks(getNotArchiveTasks(tasks)),
+  'archive': (tasks) => getArchiveTasks(tasks)
 };
 
 export const getTasksByFilter = (tasks, filterType) => {
   const nowDate = new Date();
 
-  switch (filterType) {
-    case FilterType.ALL:
-      return getNotArchiveTasks(tasks);
-    case FilterType.OVERDUE:
-      return getOverdueTasks(getNotArchiveTasks(tasks), nowDate);
-    case FilterType.TODAY:
-      return getTasksInOneDay(getNotArchiveTasks(tasks), nowDate);
-    case FilterType.FAVORITES:
-      return getFavoriteTasks(getNotArchiveTasks(tasks));
-    case FilterType.REPEATING:
-      return getRepeatingTasks(getNotArchiveTasks(tasks));
-    case FilterType.ARCHIVE:
-      return getArchiveTasks(tasks);
-  }
-
-  return tasks;
+  return filterTypes[filterType](tasks, nowDate);
 };
