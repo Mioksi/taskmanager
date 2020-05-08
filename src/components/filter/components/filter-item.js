@@ -1,7 +1,7 @@
 const getCheckedFilter = (isChecked) => isChecked ? `checked` : ``;
 
-const createFilter = (filter) => {
-  const {name, isChecked, count} = filter;
+const createFilter = (filter, isChecked) => {
+  const {name, count} = filter;
 
   return (
     `<input

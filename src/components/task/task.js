@@ -1,11 +1,13 @@
 import {getTaskInfo} from './common/task-info';
 import {createTaskButton} from './components/task-button';
 import AbstractComponent from '../abstracts/abstract-component';
+import {encode} from "he";
 
 const createTask = (task) => {
-  const {description, color} = task;
+  const {description: notSanitizedDescription, color} = task;
+  const {date, time, repeatClass, deadlineClass} = getTaskInfo(task);
 
-  const [date, time, repeatClass, deadlineClass] = getTaskInfo(task);
+  const description = encode(notSanitizedDescription);
 
   const editButton = createTaskButton(`edit`);
   const archiveButton = createTaskButton(`archive`, !task.isArchive);

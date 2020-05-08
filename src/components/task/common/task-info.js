@@ -1,9 +1,9 @@
 import {COLORS} from '../../../common/consts';
-import {formatTime, formatDate} from '../../../common/utils/helpers';
+import {formatTime, formatDate, isRepeating, isOverdueDate} from '../../../common/utils/helpers';
 import {createColorsMarkup} from './colors';
 
 const getExpireTask = (dueDate) => {
-  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const isExpired = dueDate instanceof Date && isOverdueDate(dueDate, new Date());
 
   return isExpired ? `card--deadline` : ``;
 };
@@ -17,11 +17,7 @@ const getDateTask = (dueDate) => {
   return [date, time];
 };
 
-const getRepeatInfo = (repeatingDays) => {
-  const isRepeatingTask = Object.values(repeatingDays).some(Boolean);
-
-  return isRepeatingTask ? `card--repeat` : ``;
-};
+const getRepeatInfo = () => isRepeating ? `card--repeat` : ``;
 
 const getTaskInfo = (task) => {
   const {dueDate, color, repeatingDays} = task;
@@ -31,7 +27,7 @@ const getTaskInfo = (task) => {
   const repeatClass = getRepeatInfo(repeatingDays);
   const colorsMarkup = createColorsMarkup(COLORS, color);
 
-  return [date, time, repeatClass, deadlineClass, colorsMarkup];
+  return {date, time, repeatClass, deadlineClass, colorsMarkup};
 };
 
 export {getTaskInfo};

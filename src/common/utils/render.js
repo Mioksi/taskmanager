@@ -7,15 +7,13 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
+const renderPlace = {
+  'afterbegin': (container, component) => container.prepend(component.getElement()),
+  'beforeend': (container, component) => container.append(component.getElement())
+};
+
 export const render = (container, component, place = Place.BEFOREEND) => {
-  switch (place) {
-    case Place.AFTEREND:
-      container.prepend(component.getElement());
-      break;
-    case Place.BEFOREEND:
-      container.append(component.getElement());
-      break;
-  }
+  renderPlace[place](container, component);
 };
 
 export const replace = (newComponent, oldComponent) => {
