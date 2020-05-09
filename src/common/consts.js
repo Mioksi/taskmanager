@@ -25,6 +25,14 @@ export const Color = {
 
 export const COLORS = Object.values(Color);
 
+export const colorToHex = {
+  black: `#000000`,
+  blue: `#0c5cdd`,
+  green: `#31b55c`,
+  pink: `#ff3cb9`,
+  yellow: `#ffe125`,
+};
+
 export const Place = {
   BEFOREEND: `beforeend`,
   AFTERBEGIN: `afterbegin`
