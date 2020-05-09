@@ -10,6 +10,7 @@ export const ESC_KEY = `Escape`;
 
 export const CURRENT_DAY = `today`;
 export const FILTER_ID_PREFIX = `filter__`;
+export const HIDDEN_CLASS = `visually-hidden`;
 
 export const FORMAT_TIME = `hh:mm`;
 export const FORMAT_DATE = `DD MMMM`;
@@ -21,26 +22,31 @@ export const Color = {
   GREEN: `green`,
   PINK: `pink`,
 };
+
 export const COLORS = Object.values(Color);
 
 export const Place = {
   BEFOREEND: `beforeend`,
   AFTERBEGIN: `afterbegin`
 };
+
 export const Sign = {
   NEGATIVE: -1,
   POSITIVE: 1
 };
+
 export const SortType = {
   DATE_DOWN: `date-down`,
   DATE_UP: `date-up`,
   DEFAULT: `default`,
 };
+
 export const Mode = {
   ADDING: `adding`,
   DEFAULT: `default`,
   EDIT: `edit`,
 };
+
 export const FilterType = {
   ALL: `all`,
   OVERDUE: `overdue`,
