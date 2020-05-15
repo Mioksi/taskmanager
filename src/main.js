@@ -15,9 +15,9 @@ const tasks = generateTasks(TASK_COUNT);
 
 const dateTo = new Date();
 const dateFrom = (() => {
-  const d = new Date(dateTo);
-  d.setDate(d.getDate() - 7);
-  return d;
+  const date = new Date(dateTo);
+
+  return date.setDate(date.getDate() - 7);
 })();
 
 const init = () => {
@@ -31,6 +31,29 @@ const init = () => {
   const siteMenuComponent = new MenuComponent();
   const statisticsComponent = new StatisticsComponent({tasks: tasksModel, dateFrom, dateTo});
 
+  const showNewTask = () => {
+    siteMenuComponent.setActiveItem(MenuItem.TASKS);
+    statisticsComponent.hide();
+    boardController.show();
+    boardController.createTask();
+  };
+
+  const showStatistics = () => {
+    boardController.hide();
+    statisticsComponent.show();
+  };
+
+  const showTasks = () => {
+    statisticsComponent.hide();
+    boardController.show();
+  };
+
+  const menuTab = {
+    'control__new-task': showNewTask,
+    'control__statistic': showStatistics,
+    'control__task': showTasks,
+  };
+
   render(siteHeader, siteMenuComponent);
   filterController.render();
   render(siteMain, boardComponent);
@@ -39,24 +62,7 @@ const init = () => {
   render(siteMain, statisticsComponent);
   statisticsComponent.hide();
 
-  siteMenuComponent.setOnChange((menuItem) => {
-    switch (menuItem) {
-      case MenuItem.NEW_TASK:
-        siteMenuComponent.setActiveItem(MenuItem.TASKS);
-        statisticsComponent.hide();
-        boardController.show();
-        boardController.createTask();
-        break;
-      case MenuItem.STATISTICS:
-        boardController.hide();
-        statisticsComponent.show();
-        break;
-      case MenuItem.TASKS:
-        statisticsComponent.hide();
-        boardController.show();
-        break;
-    }
-  });
+  siteMenuComponent.setOnChange((menuItem) => menuTab[menuItem]());
 };
 
 init();

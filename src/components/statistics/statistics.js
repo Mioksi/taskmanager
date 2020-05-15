@@ -1,6 +1,6 @@
 import AbstractSmartComponent from '../abstracts/abstract-smart-component';
 import {isOneDay} from '../../common/utils/helpers';
-import {colorToHex} from '../../common/consts';
+import {colorToHex, DAYS_RANGE} from '../../common/consts';
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import moment from "moment";
@@ -41,9 +41,7 @@ const calculateBetweenDates = (from, to) => {
 };
 
 const renderColorsChart = (colorsCtx, tasks) => {
-  const colors = tasks
-    .map((task) => task.color)
-    .filter(getUniqItems);
+  const colors = tasks.map((task) => task.color).filter(getUniqItems);
 
   return new Chart(colorsCtx, {
     plugins: [ChartDataLabels],
@@ -267,21 +265,27 @@ export default class Statistics extends AbstractSmartComponent {
     }
   }
 
+  _getSelectedDates(dates) {
+    if (dates.length === DAYS_RANGE) {
+      this.rerender(this._tasks, dates[0], dates[1]);
+    }
+  }
+
+  _setFlatpickr() {
+    return {
+      altInput: true,
+      allowInput: true,
+      defaultDate: [this._dateFrom, this._dateTo],
+      mode: `range`,
+      onChange: (dates) => this._getSelectedDates(dates)
+    };
+  }
+
   _applyFlatpickr(element) {
     if (this._flatpickr) {
       this._flatpickr.destroy();
     }
 
-    this._flatpickr = flatpickr(element, {
-      altInput: true,
-      allowInput: true,
-      defaultDate: [this._dateFrom, this._dateTo],
-      mode: `range`,
-      onChange: (dates) => {
-        if (dates.length === 2) {
-          this.rerender(this._tasks, dates[0], dates[1]);
-        }
-      }
-    });
+    this._flatpickr = flatpickr(element, this._setFlatpickr());
   }
 }
