@@ -3,6 +3,7 @@ import {render, remove} from '../common/utils/render';
 import SortComponent from '../components/board/sort';
 import LoadMoreButtonComponent from '../components/board/load-more-button';
 import TaskController, {EmptyTask} from './task';
+import NoTasksComponent from '../components/board/no-tasks';
 
 const renderTasks = (taskList, tasks, onDataChange, onViewChange) => {
   return tasks.map((task) => {
@@ -43,6 +44,7 @@ export default class BoardController {
 
     this._sortComponent = new SortComponent();
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
+    this._noTasksComponent = new NoTasksComponent();
     this._creatingTask = null;
 
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
@@ -68,12 +70,15 @@ export default class BoardController {
     const tasks = this._tasksModel.getTasks();
     const isAllTasksArchived = tasks.every((task) => task.isArchive);
 
-    if (!isAllTasksArchived) {
-      render(container, this._sortComponent, Place.AFTERBEGIN);
-
-      this._renderTasks(tasks.slice(0, this._showingTasksCount));
-      this._renderLoadMoreButton();
+    if (isAllTasksArchived) {
+      render(container, this._noTasksComponent);
+      return;
     }
+
+    render(container, this._sortComponent, Place.AFTERBEGIN);
+
+    this._renderTasks(tasks.slice(0, this._showingTasksCount));
+    this._renderLoadMoreButton();
   }
 
   createTask() {

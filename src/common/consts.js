@@ -1,5 +1,4 @@
 export const SHOWING_TASKS = 8;
-export const MAX_DAYS = 8;
 export const MIN_DESCRIPTION_LENGTH = 1;
 export const MAX_DESCRIPTION_LENGTH = 140;
 
@@ -37,11 +36,6 @@ export const colorToHex = {
 export const Place = {
   BEFOREEND: `beforeend`,
   AFTERBEGIN: `afterbegin`
-};
-
-export const Sign = {
-  NEGATIVE: -1,
-  POSITIVE: 1
 };
 
 export const SortType = {
