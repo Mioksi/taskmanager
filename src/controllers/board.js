@@ -1,8 +1,8 @@
-import {Place, SortType, SHOWING_TASKS, Mode} from '../common/consts';
+import {Place, SortType, SHOWING_TASKS, emptyTask, Mode} from '../common/consts';
 import {render, remove} from '../common/utils/render';
 import SortComponent from '../components/board/sort';
 import LoadMoreButtonComponent from '../components/board/load-more-button';
-import TaskController, {EmptyTask} from './task';
+import TaskController from './task';
 import NoTasksComponent from '../components/board/no-tasks';
 
 const renderTasks = (taskList, tasks, onDataChange, onViewChange) => {
@@ -90,7 +90,7 @@ export default class BoardController {
     const taskList = container.querySelector(`.board__tasks`);
 
     this._creatingTask = new TaskController(taskList, this._onDataChange, this._onViewChange);
-    this._creatingTask.render(EmptyTask, Mode.ADDING);
+    this._creatingTask.render(emptyTask, Mode.ADDING);
   }
 
   _removeTasks() {
@@ -143,25 +143,28 @@ export default class BoardController {
   }
 
   _onDataChange(taskController, oldData, newData) {
-    if (oldData === EmptyTask) {
+    if (oldData === emptyTask) {
       this._creatingTask = null;
 
       if (newData === null) {
         taskController.destroy();
         this._updateTasks(this._showingTasksCount);
       } else {
-        this._tasksModel.addTask(newData);
-        taskController.render(newData, Mode.DEFAULT);
+        this._api.createTask(newData)
+          .then((taskModel) => {
+            this._tasksModel.addTask(taskModel);
+            taskController.render(taskModel, Mode.DEFAULT);
 
-        if (this._showingTasksCount % SHOWING_TASKS === 0) {
-          const destroyedTask = this._showedTaskControllers.pop();
-          destroyedTask.destroy();
-        }
+            if (this._showingTasksCount % SHOWING_TASKS === 0) {
+              const destroyedTask = this._showedTaskControllers.pop();
+              destroyedTask.destroy();
+            }
 
-        this._showedTaskControllers = [].concat(taskController, this._showedTaskControllers);
-        this._showingTasksCount = this._showedTaskControllers.length;
+            this._showedTaskControllers = [].concat(taskController, this._showedTaskControllers);
+            this._showingTasksCount = this._showedTaskControllers.length;
 
-        this._renderLoadMoreButton();
+            this._renderLoadMoreButton();
+          });
       }
     } else if (newData === null) {
       this._tasksModel.removeTask(oldData.id);
