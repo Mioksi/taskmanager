@@ -44,20 +44,19 @@ const API = class {
   }
 
   _getCreateTaskConfig(task) {
-    return {
-      url: TASKS_URL,
-      method: Method.POST,
-      body: JSON.stringify(task.toRAW()),
-      headers: new Headers({"Content-Type": `application/json`})
-    };
+    return this._getLoadConfig(TASKS_URL, Method.POST, task);
   }
 
   _getUpdateTaskConfig(id, data) {
+    return this._getLoadConfig(`${TASKS_URL}/${id}`, Method.PUT, data);
+  }
+
+  _getLoadConfig(url, method, data) {
     return {
-      url: `${TASKS_URL}/${id}`,
-      method: Method.PUT,
+      url,
+      method,
       body: JSON.stringify(data.toRAW()),
-      headers: new Headers({"Content-Type": `application/json`})
+      headers: new Headers({'Content-Type': `application/json`})
     };
   }
 
