@@ -1,4 +1,4 @@
-import {StatusCode, Method} from '../common/consts';
+import {StatusCode, Method, TASKS_URL} from '../common/consts';
 import Task from '../models/task';
 
 const checkStatus = (response) => {
@@ -16,31 +16,49 @@ const API = class {
   }
 
   getTasks() {
-    return this._load({url: `tasks`})
+    return this._load({url: TASKS_URL})
       .then((response) => response.json())
       .then(Task.parseTasks);
   }
 
   createTask(task) {
-    return this._load({
-      url: `tasks`,
-      method: Method.POST,
-      body: JSON.stringify(task.toRAW()),
-      headers: new Headers({"Content-Type": `application/json`})
-    })
+    return this._load(this._getCreateTaskConfig(task))
       .then((response) => response.json())
-      .then(Task.parseTask);
+      .then(Task.parseTask)
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  deleteTask(id) {
+    return this._load({url: `tasks/${id}`, method: Method.DELETE});
   }
 
   updateTask(id, data) {
-    return this._load({
-      url: `tasks/${id}`,
+    return this._load(this._getUpdateTaskConfig(id, data))
+      .then((response) => response.json())
+      .then(Task.parseTask)
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  _getCreateTaskConfig(task) {
+    return {
+      url: TASKS_URL,
+      method: Method.POST,
+      body: JSON.stringify(task.toRAW()),
+      headers: new Headers({"Content-Type": `application/json`})
+    };
+  }
+
+  _getUpdateTaskConfig(id, data) {
+    return {
+      url: `${TASKS_URL}/${id}`,
       method: Method.PUT,
       body: JSON.stringify(data.toRAW()),
       headers: new Headers({"Content-Type": `application/json`})
-    })
-      .then((response) => response.json())
-      .then(Task.parseTask);
+    };
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
