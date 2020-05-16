@@ -1,9 +1,7 @@
-export const TASK_COUNT = 20;
 export const SHOWING_TASKS = 8;
 export const MAX_DAYS = 8;
 export const MIN_DESCRIPTION_LENGTH = 1;
 export const MAX_DESCRIPTION_LENGTH = 140;
-export const DAYS_RANGE = 2;
 
 export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
@@ -15,6 +13,8 @@ export const HIDDEN_CLASS = `visually-hidden`;
 
 export const FORMAT_TIME = `hh:mm`;
 export const FORMAT_DATE = `DD MMMM`;
+
+export const AUTHORIZATION = `Basic eAekUwkqYXNzd29y`;
 
 export const Color = {
   BLACK: `black`,
