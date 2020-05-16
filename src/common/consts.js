@@ -14,6 +14,7 @@ export const FORMAT_TIME = `hh:mm`;
 export const FORMAT_DATE = `DD MMMM`;
 
 export const AUTHORIZATION = `Basic eAekUwkqYXNzd29y`;
+export const END_POINT = `https://11.ecmascript.pages.academy/task-manager`;
 
 export const Color = {
   BLACK: `black`,
@@ -79,4 +80,11 @@ export const emptyTask = {
 export const StatusCode = {
   SUCCESS: 200,
   REDIRECT: 300,
+};
+
+export const Method = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`
 };

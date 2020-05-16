@@ -5,7 +5,7 @@ import MenuComponent, {MenuItem} from "./components/menu/menu";
 import StatisticsComponent from './components/statistics/statistics';
 import TasksModel from './models/tasks';
 import FilterController from './controllers/filter';
-import {AUTHORIZATION} from './common/consts';
+import {AUTHORIZATION, END_POINT} from './common/consts';
 import {render} from "./common/utils/render";
 
 const siteMain = document.querySelector(`.main`);
@@ -19,7 +19,7 @@ const dateFrom = (() => {
 })();
 
 const init = () => {
-  const api = new API(AUTHORIZATION);
+  const api = new API(END_POINT, AUTHORIZATION);
   const tasksModel = new TasksModel();
 
   const boardComponent = new BoardComponent();
