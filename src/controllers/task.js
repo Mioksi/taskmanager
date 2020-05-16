@@ -1,4 +1,4 @@
-import {Mode, ESC_KEY, DAYS, emptyTask, Place} from '../common/consts';
+import {Mode, ESC_KEY, DAYS, SHAKE_ANIMATION_TIMEOUT, emptyTask, Place} from '../common/consts';
 import TaskComponent from '../components/task/task';
 import TaskEditComponent from '../components/task/task-edit';
 import TaskModel from '../models/task';
@@ -122,6 +122,16 @@ export default class TaskController {
     remove(this._taskComponent);
 
     document.removeEventListener(`keydown`, this._onFormEscPress);
+  }
+
+  shake() {
+    this._taskEditComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+    this._taskComponent.getElement().style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+    setTimeout(() => {
+      this._taskEditComponent.getElement().style.animation = ``;
+      this._taskComponent.getElement().style.animation = ``;
+    }, SHAKE_ANIMATION_TIMEOUT);
   }
 
   _replaceEditToTask() {
