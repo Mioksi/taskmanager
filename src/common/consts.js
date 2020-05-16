@@ -1,9 +1,6 @@
-export const TASK_COUNT = 20;
 export const SHOWING_TASKS = 8;
-export const MAX_DAYS = 8;
 export const MIN_DESCRIPTION_LENGTH = 1;
 export const MAX_DESCRIPTION_LENGTH = 140;
-export const DAYS_RANGE = 2;
 
 export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
@@ -15,6 +12,10 @@ export const HIDDEN_CLASS = `visually-hidden`;
 
 export const FORMAT_TIME = `hh:mm`;
 export const FORMAT_DATE = `DD MMMM`;
+
+export const AUTHORIZATION = `Basic eAekUwkqYXNzd29y`;
+export const END_POINT = `https://11.ecmascript.pages.academy/task-manager`;
+export const TASKS_URL = `tasks`;
 
 export const Color = {
   BLACK: `black`,
@@ -36,12 +37,7 @@ export const colorToHex = {
 
 export const Place = {
   BEFOREEND: `beforeend`,
-  AFTERBEGIN: `afterbegin`
-};
-
-export const Sign = {
-  NEGATIVE: -1,
-  POSITIVE: 1
+  AFTERBEGIN: `afterbegin`,
 };
 
 export const SortType = {
@@ -63,4 +59,33 @@ export const FilterType = {
   FAVORITES: `favorites`,
   REPEATING: `repeating`,
   ARCHIVE: `archive`,
+};
+
+export const emptyTask = {
+  description: ``,
+  dueDate: null,
+  repeatingDays: {
+    "mo": false,
+    "tu": false,
+    "we": false,
+    "th": false,
+    "fr": false,
+    "sa": false,
+    "su": false,
+  },
+  color: Color.BLACK,
+  isFavorite: false,
+  isArchive: false,
+};
+
+export const StatusCode = {
+  SUCCESS: 200,
+  REDIRECT: 300,
+};
+
+export const Method = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`
 };

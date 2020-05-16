@@ -1,23 +1,25 @@
-import {Mode, ESC_KEY, Color, Place} from '../common/consts';
+import {Mode, ESC_KEY, DAYS, emptyTask, Place} from '../common/consts';
 import TaskComponent from '../components/task/task';
 import TaskEditComponent from '../components/task/task-edit';
+import TaskModel from '../models/task';
 import {render, replace, remove} from '../common/utils/render';
 
-export const EmptyTask = {
-  description: ``,
-  dueDate: null,
-  repeatingDays: {
-    "mo": false,
-    "tu": false,
-    "we": false,
-    "th": false,
-    "fr": false,
-    "sa": false,
-    "su": false,
-  },
-  color: Color.BLACK,
-  isFavorite: false,
-  isArchive: false,
+const parseFormData = (formData) => {
+  const date = formData.get(`date`);
+
+  const getDay = (days, day) => Object.assign(days, {[day]: false});
+  const repeatingDays = DAYS.reduce(getDay, {});
+
+  const getRepeatingDay = (days, day) => Object.assign(days, {[day]: true});
+
+  return new TaskModel({
+    'description': formData.get(`text`),
+    'due_date': date ? new Date(date) : null,
+    'repeating_days': formData.getAll(`repeat`).reduce(getRepeatingDay, repeatingDays),
+    'color': formData.get(`color`),
+    'is_favorite': false,
+    'is_done': false,
+  });
 };
 
 export default class TaskController {
@@ -82,21 +84,26 @@ export default class TaskController {
     });
 
     this._taskComponent.setArchiveButtonClickHandler(() => {
-      this._onDataChange(this, task, Object.assign({}, task, {
-        isArchive: !task.isArchive
-      }));
+      const newTask = TaskModel.clone(task);
+
+      newTask.isArchive = !newTask.isArchive;
+
+      this._onDataChange(this, task, newTask);
     });
 
     this._taskComponent.setFavoritesButtonClickHandler(() => {
-      this._onDataChange(this, task, Object.assign({}, task, {
-        isFavorite: !task.isFavorite
-      }));
+      const newTask = TaskModel.clone(task);
+
+      newTask.isFavorite = !newTask.isFavorite;
+
+      this._onDataChange(this, task, newTask);
     });
 
     this._taskEditComponent.setSubmitHandler((evt) => {
       evt.preventDefault();
 
-      const data = this._taskEditComponent.getData();
+      const formData = this._taskEditComponent.getData();
+      const data = parseFormData(formData);
 
       this._onDataChange(this, task, data);
     });
@@ -139,7 +146,7 @@ export default class TaskController {
 
   _onFormEscPress(evt) {
     if (evt.key === ESC_KEY || evt.key === ESC_KEY && this._mode === Mode.ADDING) {
-      this._onDataChange(this, EmptyTask, null);
+      this._onDataChange(this, emptyTask, null);
 
       this._replaceEditToTask();
 
