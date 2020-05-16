@@ -35,7 +35,7 @@ export const colorToHex = {
 
 export const Place = {
   BEFOREEND: `beforeend`,
-  AFTERBEGIN: `afterbegin`
+  AFTERBEGIN: `afterbegin`,
 };
 
 export const SortType = {
@@ -57,4 +57,26 @@ export const FilterType = {
   FAVORITES: `favorites`,
   REPEATING: `repeating`,
   ARCHIVE: `archive`,
+};
+
+export const emptyTask = {
+  description: ``,
+  dueDate: null,
+  repeatingDays: {
+    "mo": false,
+    "tu": false,
+    "we": false,
+    "th": false,
+    "fr": false,
+    "sa": false,
+    "su": false,
+  },
+  color: Color.BLACK,
+  isFavorite: false,
+  isArchive: false,
+};
+
+export const StatusCode = {
+  SUCCESS: 200,
+  REDIRECT: 300,
 };

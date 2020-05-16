@@ -111,22 +111,6 @@ const createTaskEdit = (task, options = {}) => {
   );
 };
 
-const parseFormData = (formData) => {
-  const getDay = (days, day) => Object.assign(days, {[day]: false});
-  const repeatingDays = () => DAYS.reduce(getDay, {});
-
-  const date = formData.get(`date`);
-
-  const getRepeatingDay = (days, day) => Object.assign(days, {[day]: true});
-
-  return {
-    description: formData.get(`text`),
-    color: formData.get(`color`),
-    dueDate: date ? new Date(date) : null,
-    repeatingDays: formData.getAll(`repeat`).reduce(getRepeatingDay, repeatingDays),
-  };
-};
-
 export default class TaskEdit extends AbstractSmartComponent {
   constructor(task) {
     super();
@@ -191,9 +175,8 @@ export default class TaskEdit extends AbstractSmartComponent {
 
   getData() {
     const form = this.getElement().querySelector(`.card__form`);
-    const formData = new FormData(form);
 
-    return parseFormData(formData);
+    return new FormData(form);
   }
 
   setSubmitHandler(handler) {

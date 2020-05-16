@@ -23,7 +23,7 @@ const init = () => {
   const tasksModel = new TasksModel();
 
   const boardComponent = new BoardComponent();
-  const boardController = new BoardController(boardComponent, tasksModel);
+  const boardController = new BoardController(boardComponent, tasksModel, api);
   const filterController = new FilterController(siteMain, tasksModel);
   const siteMenuComponent = new MenuComponent();
   const statisticsComponent = new StatisticsComponent({tasks: tasksModel, dateFrom, dateTo});

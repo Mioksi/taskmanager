@@ -1,4 +1,13 @@
+import {StatusCode} from '../common/consts';
 import Task from '../models/task';
+
+const checkStatus = (response) => {
+  if (response.status >= StatusCode.SUCCESS && response.status < StatusCode.REDIRECT) {
+    return response;
+  } else {
+    throw new Error(`${response.status}: ${response.statusText}`);
+  }
+};
 
 const API = class {
   constructor(authorization) {
@@ -10,8 +19,24 @@ const API = class {
     headers.append(`Authorization`, this._authorization);
 
     return fetch(`https://11.ecmascript.pages.academy/task-manager/tasks`, {headers})
+      .then(checkStatus)
       .then((response) => response.json())
       .then(Task.parseTasks);
+  }
+
+  updateTask(id, data) {
+    const headers = new Headers();
+    headers.append(`Authorization`, this._authorization);
+    headers.append(`Content-Type`, `application/json`);
+
+    return fetch(`https://11.ecmascript.pages.academy/task-manager/tasks/${id}`, {
+      method: `PUT`,
+      body: JSON.stringify(data.toRAW()),
+      headers,
+    })
+      .then(checkStatus)
+      .then((response) => response.json())
+      .then(Task.parseTask);
   }
 };
 
