@@ -1,6 +1,7 @@
 export const SHOWING_TASKS = 8;
 export const MIN_DESCRIPTION_LENGTH = 1;
 export const MAX_DESCRIPTION_LENGTH = 140;
+export const SHAKE_ANIMATION_TIMEOUT = 600;
 
 export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
@@ -35,6 +36,28 @@ export const colorToHex = {
   yellow: `#ffe125`,
 };
 
+export const emptyTask = {
+  description: ``,
+  dueDate: null,
+  repeatingDays: {
+    "mo": false,
+    "tu": false,
+    "we": false,
+    "th": false,
+    "fr": false,
+    "sa": false,
+    "su": false,
+  },
+  color: Color.BLACK,
+  isFavorite: false,
+  isArchive: false,
+};
+
+export const defaultData = {
+  deleteButtonText: `Delete`,
+  saveButtonText: `Save`,
+};
+
 export const Place = {
   BEFOREEND: `beforeend`,
   AFTERBEGIN: `afterbegin`,
@@ -59,23 +82,6 @@ export const FilterType = {
   FAVORITES: `favorites`,
   REPEATING: `repeating`,
   ARCHIVE: `archive`,
-};
-
-export const emptyTask = {
-  description: ``,
-  dueDate: null,
-  repeatingDays: {
-    "mo": false,
-    "tu": false,
-    "we": false,
-    "th": false,
-    "fr": false,
-    "sa": false,
-    "su": false,
-  },
-  color: Color.BLACK,
-  isFavorite: false,
-  isArchive: false,
 };
 
 export const StatusCode = {
