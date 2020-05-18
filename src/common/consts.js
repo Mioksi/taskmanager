@@ -18,6 +18,10 @@ export const AUTHORIZATION = `Basic eAekUwkqYXNzd29y`;
 export const END_POINT = `https://11.ecmascript.pages.academy/task-manager`;
 export const TASKS_URL = `tasks`;
 
+const STORE_PREFIX = `taskmanager-localstorage`;
+const STORE_VER = `v1`;
+export const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
+
 export const Color = {
   BLACK: `black`,
   YELLOW: `yellow`,
