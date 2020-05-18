@@ -43,6 +43,16 @@ const API = class {
       });
   }
 
+  sync(data) {
+    return this._load({
+      url: `${TASKS_URL}/sync`,
+      method: Method.POST,
+      body: JSON.stringify(data),
+      headers: new Headers({"Content-Type": `application/json`})
+    })
+      .then((response) => response.json());
+  }
+
   _getCreateTaskConfig(task) {
     return this._getLoadConfig(TASKS_URL, Method.POST, task);
   }
