@@ -1,4 +1,5 @@
 import Task from '../models/task';
+import {nanoid} from "nanoid";
 
 const isOnline = () => {
   return window.navigator.onLine;
@@ -27,10 +28,20 @@ export default class Provider {
 
   createTask(task) {
     if (isOnline()) {
-      return this._api.createTask(task);
-    }
+      return this._api.createTask(task)
+        .then((newTask) => {
+          this._store.setItem(newTask.id, newTask.toRAW());
 
-    return Promise.reject(`offline logic is not implemented`);
+          return newTask;
+        });
+    }
+    
+    const localNewTaskId = nanoid();
+    const localNewTask = Task.clone(Object.assign(task, {id: localNewTaskId}));
+
+    this._store.setItem(localNewTask.id, localNewTask.toRAW());
+
+    return Promise.resolve(localNewTask);
   }
 
   updateTask(id, task) {
