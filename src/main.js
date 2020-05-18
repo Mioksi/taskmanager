@@ -59,6 +59,13 @@ const init = () => {
       tasksModel.setTasks(tasks);
       boardController.render();
     });
+
+  window.addEventListener(`load`, () => {
+    navigator.serviceWorker.register(`/sw.js`)
+      .then(() => {
+      }).catch(() => {
+      });
+  });
 };
 
 init();
