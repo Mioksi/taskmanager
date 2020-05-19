@@ -14,12 +14,17 @@ export default class Provider {
   constructor(api, store) {
     this._api = api;
     this._store = store;
+
+    this._getStoreTasks = this._getStoreTasks.bind(this);
+    this._getNewTask = this._getNewTask.bind(this);
+    this._getUpdateTask = this._getUpdateTask.bind(this);
+    this._syncTasks = this._syncTasks.bind(this);
   }
 
   getTasks() {
     if (isOnline()) {
       return this._api.getTasks()
-        .then((tasks) => this._getStoreTasks(tasks));
+        .then(this._getStoreTasks);
     }
 
     const storeTasks = Object.values(this._store.getItems());
@@ -30,7 +35,7 @@ export default class Provider {
   createTask(task) {
     if (isOnline()) {
       return this._api.createTask(task)
-        .then((newTask) => this._getNewTask(newTask));
+        .then(this._getNewTask);
     }
 
     const localNewTaskId = nanoid();
@@ -44,7 +49,7 @@ export default class Provider {
   updateTask(id, task) {
     if (isOnline()) {
       return this._api.updateTask(id, task)
-        .then((newTask) => this._getUpdateTask(newTask));
+        .then(this._getUpdateTask);
     }
 
     const localTask = Task.clone(Object.assign(task, {id}));
@@ -70,7 +75,7 @@ export default class Provider {
       const storeTasks = Object.values(this._store.getItems());
 
       return this._api.sync(storeTasks)
-        .then((response) => this._syncTasks(response));
+        .then(this._syncTasks);
     }
 
     return Promise.reject(new Error(`Sync data failed`));

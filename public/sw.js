@@ -46,25 +46,25 @@ const onActivate = (evt) => {
   evt.waitUntil(caches.keys().then((keys) => getAllKeys(keys)));
 };
 
+const getRequest = (response, request) => {
+  if (!response || response.status !== STATUS_SUCCESS || response.type !== STATUS_BASIC) {
+    return response;
+  }
+
+  const clonedResponse = response.clone();
+
+  caches.open(CACHE_NAME)
+    .then((cache) => cache.put(request, clonedResponse));
+
+  return response;
+};
+
 const getCacheResponse = (cacheResponse, request) => {
   if (cacheResponse) {
     return cacheResponse;
   }
 
-  const getRequest = (response) => {
-    if (!response || response.status !== STATUS_SUCCESS || response.type !== STATUS_BASIC) {
-      return response;
-    }
-
-    const clonedResponse = response.clone();
-
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.put(request, clonedResponse));
-
-    return response;
-  };
-
-  return fetch(request).then((response) => getRequest(response));
+  return fetch(request).then(getRequest);
 };
 
 const onFetch = (evt) => {

@@ -7,7 +7,7 @@ import MenuComponent, {MenuItem} from "./components/menu/menu";
 import StatisticsComponent from './components/statistics/statistics';
 import TasksModel from './models/tasks';
 import FilterController from './controllers/filter';
-import {AUTHORIZATION, END_POINT, STORE_NAME} from './common/consts';
+import {AUTHORIZATION, END_POINT, STORE_NAME, DAYS_RANGE} from './common/consts';
 import {render} from "./common/utils/render";
 
 const siteMain = document.querySelector(`.main`);
@@ -16,7 +16,7 @@ const siteHeader = siteMain.querySelector(`.main__control`);
 const dateTo = new Date();
 const dateFrom = (() => {
   const date = new Date(dateTo);
-  date.setDate(date.getDate() - 7);
+  date.setDate(date.getDate() - DAYS_RANGE);
   return date;
 })();
 
