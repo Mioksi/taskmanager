@@ -1,10 +1,12 @@
+const STATUS_BASIC = `basic`;
+const STATUS_SUCCESS = 200;
 const CACHE_PREFIX = `taskmanager-cache`;
 const CACHE_VER = `v1`;
 const CACHE_NAME = `${CACHE_PREFIX}-${CACHE_VER}`;
 
-self.addEventListener(`install`, (evt) => {
+const onInstall = (evt) => {
   evt.waitUntil(
-    caches.open(CACHE_NAME)
+      caches.open(CACHE_NAME)
       .then((cache) => {
         return cache.addAll([
           `/`,
@@ -25,32 +27,33 @@ self.addEventListener(`install`, (evt) => {
         ]);
       })
   );
-});
+};
 
-self.addEventListener(`activate`, (evt) => {
-  evt.waitUntil(
-    caches.keys()
-      .then(
-        (keys) => Promise.all(
-          keys.map(
-            (key) => {
-              if (key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME) {
-                return caches.delete(key);
-              }
+const getAllKeys = (keys) => {
+  Promise.all(
+      keys.map(
+          (key) => {
+            if (key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME) {
+              return caches.delete(key);
+            }
 
-              return null;
-            })
-            .filter((key) => key !== null)
-        )
-      )
+            return null;
+          })
+        .filter((key) => key !== null)
   );
-});
+};
 
-self.addEventListener(`fetch`, (evt) => {
+const onActivate = (evt) => {
+  evt.waitUntil(
+      caches.keys()
+      .then((keys) => getAllKeys(keys)));
+};
+
+const onFetch = (evt) => {
   const {request} = evt;
 
   evt.respondWith(
-    caches.match(request)
+      caches.match(request)
       .then((cacheResponse) => {
 
         if (cacheResponse) {
@@ -59,7 +62,7 @@ self.addEventListener(`fetch`, (evt) => {
 
         return fetch(request)
           .then((response) => {
-            if (!response || response.status !== 200 || response.type !== `basic`) {
+            if (!response || response.status !== STATUS_SUCCESS || response.type !== STATUS_BASIC) {
               return response;
             }
 
@@ -72,4 +75,8 @@ self.addEventListener(`fetch`, (evt) => {
           });
       })
   );
-});
+};
+
+self.addEventListener(`install`, onInstall);
+self.addEventListener(`activate`, onActivate);
+self.addEventListener(`fetch`, onFetch);
