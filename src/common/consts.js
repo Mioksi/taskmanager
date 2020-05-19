@@ -14,7 +14,7 @@ export const HIDDEN_CLASS = `visually-hidden`;
 export const FORMAT_TIME = `hh:mm`;
 export const FORMAT_DATE = `DD MMMM`;
 
-export const AUTHORIZATION = `Basic eAekUwkqYXNzd29y`;
+export const AUTHORIZATION = `Basic eAekUwkqYXNzdAef21y`;
 export const END_POINT = `https://11.ecmascript.pages.academy/task-manager`;
 export const TASKS_URL = `tasks`;
 

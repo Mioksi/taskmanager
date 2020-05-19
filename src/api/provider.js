@@ -7,13 +7,8 @@ const isOnline = () => {
 
 const getSyncedTasks = (items) => items.filter(({success}) => success).map(({payload}) => payload.task);
 
-const createStoreStructure = (items) => {
-  return items.reduce((acc, current) => {
-    return Object.assign({}, acc, {
-      [current.id]: current,
-    });
-  }, {});
-};
+const createItemStore = (acc, current) => Object.assign({}, acc, {[current.id]: current});
+const createStoreStructure = (items) => items.reduce(createItemStore, {});
 
 export default class Provider {
   constructor(api, store) {
@@ -24,13 +19,7 @@ export default class Provider {
   getTasks() {
     if (isOnline()) {
       return this._api.getTasks()
-        .then((tasks) => {
-          const items = createStoreStructure(tasks.map((task) => task.toRAW()));
-
-          this._store.setItems(items);
-
-          return tasks;
-        });
+        .then((tasks) => this._getStoreTasks(tasks));
     }
 
     const storeTasks = Object.values(this._store.getItems());
@@ -41,11 +30,7 @@ export default class Provider {
   createTask(task) {
     if (isOnline()) {
       return this._api.createTask(task)
-        .then((newTask) => {
-          this._store.setItem(newTask.id, newTask.toRAW());
-
-          return newTask;
-        });
+        .then((newTask) => this._getNewTask(newTask));
     }
 
     const localNewTaskId = nanoid();
@@ -59,11 +44,7 @@ export default class Provider {
   updateTask(id, task) {
     if (isOnline()) {
       return this._api.updateTask(id, task)
-        .then((newTask) => {
-          this._store.setItem(newTask.id, newTask.toRAW());
-
-          return newTask;
-        });
+        .then((newTask) => this._getUpdateTask(newTask));
     }
 
     const localTask = Task.clone(Object.assign(task, {id}));
@@ -89,16 +70,39 @@ export default class Provider {
       const storeTasks = Object.values(this._store.getItems());
 
       return this._api.sync(storeTasks)
-        .then((response) => {
-          const createdTasks = getSyncedTasks(response.created);
-          const updatedTasks = getSyncedTasks(response.updated);
-
-          const items = createStoreStructure([...createdTasks, ...updatedTasks]);
-
-          this._store.setItems(items);
-        });
+        .then((response) => this._syncTasks(response));
     }
 
     return Promise.reject(new Error(`Sync data failed`));
   }
+
+  _getStoreTasks(tasks) {
+    const items = createStoreStructure(tasks.map((task) => task.toRAW()));
+
+    this._store.setItems(items);
+
+    return tasks;
+  }
+
+  _getNewTask(newTask) {
+    this._store.setItem(newTask.id, newTask.toRAW());
+
+    return newTask;
+  }
+
+  _getUpdateTask(newTask) {
+    this._store.setItem(newTask.id, newTask.toRAW());
+
+    return newTask;
+  }
+
+  _syncTasks(response) {
+    const createdTasks = getSyncedTasks(response.created);
+    const updatedTasks = getSyncedTasks(response.updated);
+
+    const items = createStoreStructure([...createdTasks, ...updatedTasks]);
+
+    this._store.setItems(items);
+  }
 }
+

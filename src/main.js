@@ -15,9 +15,9 @@ const siteHeader = siteMain.querySelector(`.main__control`);
 
 const dateTo = new Date();
 const dateFrom = (() => {
-  const d = new Date(dateTo);
-  d.setDate(d.getDate() - 7);
-  return d;
+  const date = new Date(dateTo);
+  date.setDate(date.getDate() - 7);
+  return date;
 })();
 
 const init = () => {
@@ -65,10 +65,7 @@ const init = () => {
     });
 
   window.addEventListener(`load`, () => {
-    navigator.serviceWorker.register(`/sw.js`)
-      .then(() => {
-      }).catch(() => {
-      });
+    navigator.serviceWorker.register(`/sw.js`);
   });
 
   window.addEventListener(`online`, () => {
