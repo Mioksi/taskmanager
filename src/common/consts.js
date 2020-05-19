@@ -2,6 +2,7 @@ export const SHOWING_TASKS = 8;
 export const MIN_DESCRIPTION_LENGTH = 1;
 export const MAX_DESCRIPTION_LENGTH = 140;
 export const SHAKE_ANIMATION_TIMEOUT = 600;
+export const DAYS_RANGE = 7;
 
 export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
@@ -14,9 +15,13 @@ export const HIDDEN_CLASS = `visually-hidden`;
 export const FORMAT_TIME = `hh:mm`;
 export const FORMAT_DATE = `DD MMMM`;
 
-export const AUTHORIZATION = `Basic eAekUwkqYXNzd29y`;
+export const AUTHORIZATION = `Basic eAekUwkqYXNzdAef21y`;
 export const END_POINT = `https://11.ecmascript.pages.academy/task-manager`;
 export const TASKS_URL = `tasks`;
+
+const STORE_PREFIX = `taskmanager-localstorage`;
+const STORE_VER = `v1`;
+export const STORE_NAME = `${STORE_PREFIX}-${STORE_VER}`;
 
 export const Color = {
   BLACK: `black`,
